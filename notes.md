@@ -1,3 +1,22 @@
+Start here:
+* [C++ modules conformance #495](https://github.com/microsoft/cppwinrt/pull/495)
+
+
+> The `cppwinrt.exe` compiler will now generate a `winrt/winrt.ixx` file that may be compiled as a module as follows:
+>
+> ```
+> cl /c /I . /experimental:module /EHsc /bigobj /std:c++17 /await winrt/winrt.ixx
+> ```
+>
+> This will compile all of the projected namespaces into a single `winrt` module. This step takes quite a while - around 2 minutes on my machine. But once that's built, much like a PCH, you can import the module into any (compatible) TU very quickly as follows:
+>
+> ```
+> cl /experimental:module /EHsc /std:c++17 /await app.cpp winrt.obj
+> ```
+
+I'm not sure how I generated that the first time around. Just copy-pasta'd the implementation of cppwinrt from the Terminal project? probably.
+
+--------------------------------------------------------------------------------
 
 
 ```bat
