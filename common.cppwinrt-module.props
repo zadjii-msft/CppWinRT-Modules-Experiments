@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- <ItemDefinitionGroup Condition="'$(LanguageStandard)'=='stdcpplatest'">
+    <ClCompile>
+      <EnableModules>true</EnableModules>
+      <AdditionalModuleDependencies>$(MSBuildThisFileDirectory)\CppWinRTModule\x64\Release\winrt.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)\CppWinRTModule\x64\Release\winrt.ixx.obj;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup> -->
+  <!-- <ItemDefinitionGroup Condition="'$(LanguageStandard)'=='stdcpp17'"> -->
+
+  <!-- I don't know why those conditions don't work. MsBuild is scary. -->
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <EnableModules>true</EnableModules>
+      <AdditionalModuleDependencies>$(MSBuildThisFileDirectory)\CppWinRTModule\winrt.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)\CppWinRTModule\x64\Release\winrt.obj;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+</Project>
