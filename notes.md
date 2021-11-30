@@ -150,3 +150,11 @@ End of original notes.
 * Sure as shit, that compiles and runs successfully. That's great!
 - [ ] **FOLLOW UP**: What's the actually right way to have one project in VS depend on a module project? I should be able to just add it as a reference, right? It should be seamless.
 * Add a new Runtime Component project to the solution. This should build perfectly fine.
+* Struggle with mismatched winrt headers.
+* IN `ModulesExperiments\ModulesExperiments\CppWinRTModule`, "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\cppwinrt.exe" -verbose -ref local -prefix -opt -out .` was the command that actually ended up generating the projection!
+  - That of course uses `2.0.201201.7`, which is not the most up to date cppwinrt version. That's probably jsut the one that ships with VS
+  - `"D:\dev\scratch\ModulesExperiments\ModulesExperiments\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\bin\cppwinrt.exe" -verbose -overwrite -ref local -prefix -opt -out D:\dev\scratch\ModulesExperiments\ModulesExperiments\CppWinRTModule` works better
+  - GAH that didn't generate the ixx...? Wait no that's in the `winrt/` subdir
+* Okay, so admittedly I don't need this, so I'm just removing it. But I hit an error where the compiler seemed to think that `Windows.UI.Composition.Particles.h` didn't exist, when it 100% did.
+  - I literally just commented it out in the _generated_ `winrt.ixx`. I Shouldn't do that, but I did.
+* That compiled the module again!

@@ -143,6 +143,21 @@
       <DeploymentContent>false</DeploymentContent>
     </Text>
   </ItemGroup>
+
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalModuleDependencies>$(SolutionDir)CppWinRTModule\$(Platform)\$(Configuration)\winrt.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>$(solutiondir)CppWinRTModule\$(Platform)\$(Configuration)\winrt.ixx.obj;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
