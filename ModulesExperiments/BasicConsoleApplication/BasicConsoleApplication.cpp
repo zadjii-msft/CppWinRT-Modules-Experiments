@@ -2,12 +2,12 @@
 //
 
 import winrt;
-#pragma comment (lib, "oleaut32")
+#pragma comment(lib, "oleaut32")
 
 // Note: these two are only needed when compiling with modules.
-#pragma comment (lib, "ole32")
-#pragma comment (lib, "advapi32")
-
+// Especially to fix the "unresolved external symbol WINRT_IMPL_CoGetCallContext"
+#pragma comment(lib, "ole32")
+#pragma comment(lib, "advapi32")
 
 #include <iostream>
 
@@ -23,7 +23,7 @@ int main()
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
+// Tips for Getting Started:
 //   1. Use the Solution Explorer window to add/manage files
 //   2. Use the Team Explorer window to connect to source control
 //   3. Use the Output window to see build output and other messages
