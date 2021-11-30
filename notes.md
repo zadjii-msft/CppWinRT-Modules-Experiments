@@ -19,6 +19,8 @@ I'm not sure how I generated that the first time around. Just copy-pasta'd the i
 --------------------------------------------------------------------------------
 
 
+
+
 ```bat
 [ 9:19:44.22]>C:\Users\migrie\dev\scratch\PchSizeExperiments\ConsoleApp>
 migrie@MIGRIE-SLAPTOP>cl /c /I "Debug\Generated Files" /experimental:module /EHsc /bigobj /std:c++17 /await "Debug\Generated Files\winrt\winrt.ixx"
@@ -100,3 +102,19 @@ MSVC\14.28.29910\bin\HostX86\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\mig
 ```
 
 okay there's nothing in that build commandline that indicates where the `ifc` and `obj` are going to land. Nuts.
+
+
+--------------------------------------------------------------------------------
+End of original notes.
+
+
+z 30-Nov-2021
+
+* Created new solution directory.
+* Created a new Console Application.
+  - Set it to C++20 `/std:c++20` and toolset `v143`
+* Copy the `CppWinRTModule` directory into that solution.
+* In `CppWinRTModule`, run: `cl /c /I . /experimental:module /EHsc /bigobj /std:c++17 /await winrt.ixx`
+  - There are some warnings, about `CppWinRTModule\winrt/base.h(101): warning C5244: '#include <WindowsNumerics.impl.h>' in the purview of module 'winrt' appears erroneous`
+  - This produces a 229,877,076B `winrt.ifc` and 158,347,308B `winrt.obj` (229MB and 158MB respectively).
+* Add the module's `.ifc` to the `ClCompile.AdditionalModuleDependencies`, and the `.obj` to the `Link.AdditionalDependencies`
