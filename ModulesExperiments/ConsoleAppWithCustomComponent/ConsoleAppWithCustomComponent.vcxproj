@@ -116,6 +116,11 @@
       <DeploymentContent>false</DeploymentContent>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WinRTComponentModule\WinRTComponentModule.vcxproj">
+      <Project>{fc208f98-a466-4690-b2c0-239486abe994}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
@@ -127,27 +132,16 @@
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
   </Target>
-
-
   <!-- ========================= Project References ======================== -->
-  <ItemGroup>
-    <ProjectReference Include="$(SolutionDir)WinRTComponent\WinRTComponent.vcxproj">
-      <Project>{6b041ffb-4c78-4a27-b0a3-784df6e753ec}</Project>
-      <!-- <ReferenceOutputAssembly>false</ReferenceOutputAssembly> -->
-    </ProjectReference>
-  </ItemGroup>
-
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalModuleDependencies>$(SolutionDir)CppWinRTModule\$(Platform)\$(Configuration)\winrt.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
-
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>$(solutiondir)CppWinRTModule\$(Platform)\$(Configuration)\winrt.ixx.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-
 </Project>

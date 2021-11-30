@@ -181,3 +181,4 @@ End of original notes.
 * Now, we're going to make _another_ cppwinrt console app, to try and use our component we just authored.
   - If we try just adding an `#include <winrt/WinRTComponent.h>` to the new app's pch.h, we'll get duplicated `take_ownership_from_abi`, in the module's impl and in the component's normalling included `base.h`. So now we need a way to only include one copy of that. Do we create a module for that? Seems like a solution.
 * Tried making a `WinRTComponent.ixx` as a module for this component. It's going... poorly.
+* Instead, made a totally separate project for the `WinRTComponentModule`, which literally just makes a module for the `WinRTComponent`. It's a static lib project, with `<ClCompile.CompileAs>CompileAsCppModule</CompileAs>`
