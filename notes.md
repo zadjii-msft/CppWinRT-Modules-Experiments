@@ -18,7 +18,7 @@ I'm not sure how I generated that the first time around. Just copy-pasta'd the i
 
 --------------------------------------------------------------------------------
 
-
+###### Original notes, circa may 2021
 
 
 ```bat
@@ -108,7 +108,7 @@ okay there's nothing in that build commandline that indicates where the `ifc` an
 End of original notes.
 
 
-z 30-Nov-2021
+###### z 30-Nov-2021
 
 * Created new solution directory.
 * Created a new Console Application.
@@ -137,7 +137,8 @@ z 30-Nov-2021
 
 * Added the module project to the new solution. Updated toolset to 143, std to c++20
 * Build that project. Fails to build, but produces `x64\Debug\winrt.ixx.ifc` and `x64\Debug\winrt.ixx.obj`. Let's use those.
-  - [ ] Why is there no Module project template in VS? How do I just build a module as a single project? A library maybe?
+  - [ ] Replace that project with one that just builds the module, successfully.
+  - [ ] **FOLLOW UP** Why is there no Module project template in VS? How do I just build a module as a single project? A library maybe?
 * In the console app, chaged the include to
   ```xml
       <AdditionalModuleDependencies>$(SolutionDir)CppWinRTModule\$(Platform)\$(Configuration)\winrt.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
@@ -147,3 +148,5 @@ z 30-Nov-2021
       <AdditionalDependencies>$(SolutionDir)CppWinRTModule\$(Platform)\$(Configuration)\winrt.ixx.obj;%(AdditionalDependencies)</AdditionalDependencies>
   ```
 * Sure as shit, that compiles and runs successfully. That's great!
+- [ ] **FOLLOW UP**: What's the actually right way to have one project in VS depend on a module project? I should be able to just add it as a reference, right? It should be seamless.
+* Add a new Runtime Component project to the solution. This should build perfectly fine.
