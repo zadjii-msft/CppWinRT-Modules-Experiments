@@ -13,6 +13,8 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="WinRTComponent.ixx" />
+    <ClCompile Include="Module.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
