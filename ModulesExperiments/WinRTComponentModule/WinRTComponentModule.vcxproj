@@ -32,7 +32,6 @@
     <RootNamespace>WinRTComponentModule</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 
   <PropertyGroup>
@@ -157,6 +156,9 @@
     <ProjectReference Include="$(SolutionDir)WinRTComponent\WinRTComponent.vcxproj">
       <Project>{6b041ffb-4c78-4a27-b0a3-784df6e753ec}</Project>
       <!-- <ReferenceOutputAssembly>false</ReferenceOutputAssembly> -->
+    </ProjectReference>
+    <ProjectReference Include="..\CppWinRTModule\CppWinRTModule.vcxproj">
+      <Project>{ec208f98-a466-4690-b2c0-239486abe994}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemDefinitionGroup>

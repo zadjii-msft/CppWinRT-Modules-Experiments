@@ -1,6 +1,6 @@
 #include "pch.h"
 
-import winrt;
+// import winrt;
 import WinRTComponent;
 
 #include <iostream>
@@ -21,7 +21,7 @@ int main()
     Uri uri(L"http://aka.ms/cppwinrt");
     printf("Hello, %ls!\n", uri.AbsoluteUri().c_str());
 
-    winrt::WinRTComponent::Class foo{};
+    WinRTComponent::Class foo{};
 
     printf("Goodbye, %ls!\n", foo.MyProperty().c_str());
 }

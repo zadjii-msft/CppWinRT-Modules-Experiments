@@ -162,9 +162,9 @@ module;
 
 // Attempt 7: ------------------------------------------------------------------
 //
-export module WinRTComponent;
-#define WINRT_EXPORT export
-#include "winrt/WinRTComponent.h"
+// export module WinRTComponent;
+// #define WINRT_EXPORT export
+// #include "winrt/WinRTComponent.h"
 //
 // When compiling the ConsoleAppWithCustomComponent, we'll get something like:
 /*
@@ -173,3 +173,29 @@ ConsoleAppWithCustomComponent\main.cpp(20,19): fatal error C1117: unrecoverable 
 // Comment that line out, and it'll just complain about hstring next.
 // That seems to imply that both modules are exporting the same thing? (conjecture)
 // BUT, if you comment out the winrt module, then it can't find Windows::Foundation::Uri, so that's clearly needed for something...
+
+// Attempt 8: ------------------------------------------------------------------
+//
+// import winrt;
+// export module WinRTComponent;
+// #include "winrt/WinRTComponent.h"
+//
+// Nope, just more duplicated numerics things again.
+
+// Attempt 9: ------------------------------------------------------------------
+//
+// import winrt;
+// export module WinRTComponent;
+// #define WINRT_EXPORT export
+// #include "winrt/WinRTComponent.h"
+//
+//
+
+// Attempt 10: ------------------------------------------------------------------
+//
+import winrt;
+export module WinRTComponent;
+#define WINRT_EXPORT export
+#include "winrt/WinRTComponent.h"
+//
+//
