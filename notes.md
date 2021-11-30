@@ -118,3 +118,32 @@ z 30-Nov-2021
   - There are some warnings, about `CppWinRTModule\winrt/base.h(101): warning C5244: '#include <WindowsNumerics.impl.h>' in the purview of module 'winrt' appears erroneous`
   - This produces a 229,877,076B `winrt.ifc` and 158,347,308B `winrt.obj` (229MB and 158MB respectively).
 * Add the module's `.ifc` to the `ClCompile.AdditionalModuleDependencies`, and the `.obj` to the `Link.AdditionalDependencies`
+
+  At this point, we'll have some build errors:
+  ```
+  1>Done building project "BasicConsoleApplication.vcxproj" -- FAILED.
+  1>
+  1>Build FAILED.
+  1>
+  1>LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
+  1>LINK : warning LNK4217: symbol '__acrt_iob_func' defined in 'libucrt.lib(_file.obj)' is imported by 'BasicConsoleApplication.obj' in function 'printf'
+  1>LINK : warning LNK4217: symbol '__stdio_common_vfprintf' defined in 'libucrt.lib(output.obj)' is imported by 'BasicConsoleApplication.obj' in function '_vfprintf_l'
+  1>BasicConsoleApplication.obj : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in winrt.obj
+  1>BasicConsoleApplication.obj : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MT_StaticRelease' in winrt.obj
+  1>D:\dev\scratch\ModulesExperiments\ModulesExperiments\x64\Debug\BasicConsoleApplication.exe : fatal error LNK1319: 2 mismatches detected
+  1>    3 Warning(s)
+  1>    3 Error(s)
+  ```
+
+* Added the module project to the new solution. Updated toolset to 143, std to c++20
+* Build that project. Fails to build, but produces `x64\Debug\winrt.ixx.ifc` and `x64\Debug\winrt.ixx.obj`. Let's use those.
+  - [ ] Why is there no Module project template in VS? How do I just build a module as a single project? A library maybe?
+* In the console app, chaged the include to
+  ```xml
+      <AdditionalModuleDependencies>$(SolutionDir)CppWinRTModule\$(Platform)\$(Configuration)\winrt.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+
+      ...
+
+      <AdditionalDependencies>$(SolutionDir)CppWinRTModule\$(Platform)\$(Configuration)\winrt.ixx.obj;%(AdditionalDependencies)</AdditionalDependencies>
+  ```
+* Sure as shit, that compiles and runs successfully. That's great!

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasicConsoleApplication", "BasicConsoleApplication\BasicConsoleApplication.vcxproj", "{711D74B0-8F1C-45F8-BA48-C74A2539B8D0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppWinRTModule", "CppWinRTModule\CppWinRTModule.vcxproj", "{EC208F98-A466-4690-B2C0-239486ABE994}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{711D74B0-8F1C-45F8-BA48-C74A2539B8D0}.Release|x64.Build.0 = Release|x64
 		{711D74B0-8F1C-45F8-BA48-C74A2539B8D0}.Release|x86.ActiveCfg = Release|Win32
 		{711D74B0-8F1C-45F8-BA48-C74A2539B8D0}.Release|x86.Build.0 = Release|Win32
+		{EC208F98-A466-4690-B2C0-239486ABE994}.Debug|x64.ActiveCfg = Debug|x64
+		{EC208F98-A466-4690-B2C0-239486ABE994}.Debug|x64.Build.0 = Debug|x64
+		{EC208F98-A466-4690-B2C0-239486ABE994}.Debug|x86.ActiveCfg = Debug|Win32
+		{EC208F98-A466-4690-B2C0-239486ABE994}.Debug|x86.Build.0 = Debug|Win32
+		{EC208F98-A466-4690-B2C0-239486ABE994}.Release|x64.ActiveCfg = Release|x64
+		{EC208F98-A466-4690-B2C0-239486ABE994}.Release|x64.Build.0 = Release|x64
+		{EC208F98-A466-4690-B2C0-239486ABE994}.Release|x86.ActiveCfg = Release|Win32
+		{EC208F98-A466-4690-B2C0-239486ABE994}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
