@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="winrt/winrt.ixx" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="winrt\base.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -60,11 +63,9 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -79,6 +80,9 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <CppWinRT_IncludePath>$(SolutionDir)CppWinRTModule\winrt</CppWinRT_IncludePath>
+  </PropertyGroup>
 
   <ItemDefinitionGroup>
     <ClCompile>
@@ -87,6 +91,7 @@
       <AdditionalOptions>%(AdditionalOptions) /permissive- /bigobj /await </AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalModuleDependencies>%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+      <!-- <AdditionalIncludeDirectories>$(SolutionDir)CppWinRTModule\winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories> -->
     </ClCompile>
     <Link>
       <AdditionalDependencies>kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -153,4 +158,13 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+
+
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)CppWinRTModule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
 </Project>

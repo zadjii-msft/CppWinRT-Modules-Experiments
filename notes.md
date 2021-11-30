@@ -155,6 +155,26 @@ End of original notes.
   - That of course uses `2.0.201201.7`, which is not the most up to date cppwinrt version. That's probably jsut the one that ships with VS
   - `"D:\dev\scratch\ModulesExperiments\ModulesExperiments\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\bin\cppwinrt.exe" -verbose -overwrite -ref local -prefix -opt -out D:\dev\scratch\ModulesExperiments\ModulesExperiments\CppWinRTModule` works better
   - GAH that didn't generate the ixx...? Wait no that's in the `winrt/` subdir
+  - DON'T just `-overwrite` if you do the `cppwinrt.exe` command wrong. May leave behind headers with the wrong version, and the compiler i guess just powers through. Clean everything up, then do the right thing.
+  - Actually no, that wasn't the issue. We're still including the `base.h` from the SDK, which has a different cppwinrt version. So manually defining `#define CPPWINRT_VERSION "2.0.210806.1"` will make it obvious that we're including the wrong one.
+  - IMPORTANT: Add this to the _bottom_ of the module vcxproj:
+    ```xml
+
+    <ItemDefinitionGroup>
+      <ClCompile>
+        <AdditionalIncludeDirectories>$(SolutionDir)CppWinRTModule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      </ClCompile>
+    </ItemDefinitionGroup>
+    ```
+    This will allow the module to build with the winrt headers that it generated, rather than the ones that come with the SDK.
 * Okay, so admittedly I don't need this, so I'm just removing it. But I hit an error where the compiler seemed to think that `Windows.UI.Composition.Particles.h` didn't exist, when it 100% did.
   - I literally just commented it out in the _generated_ `winrt.ixx`. I Shouldn't do that, but I did.
+  - This was reproducible when deleting the entire `winrt/` directory and rebuilding the module. That's mental.
 * That compiled the module again!
+* Now, when we compile the runtime component, we're running into `unresolved external symbol WINRT_IMPL_CoGetCallContext`
+  - To fix that, stick
+    ```c++
+    #pragma comment (lib, "ole32")
+    #pragma comment (lib, "advapi32")
+    ```
+    In the runtime component's `pch.h`. There's... no other `import winrt` though, which is... mysterious. I suppose I'm not really using cppwinrt at this point?

@@ -2,6 +2,9 @@
 
 module;
 
+#define CPPWINRT_VERSION "2.0.210806.1"
+
+
 #include <algorithm>
 #include <array>
 #include <atomic>
