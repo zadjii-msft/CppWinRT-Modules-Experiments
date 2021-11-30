@@ -178,3 +178,6 @@ End of original notes.
     #pragma comment (lib, "advapi32")
     ```
     In the runtime component's `pch.h`. There's... no other `import winrt` though, which is... mysterious. I suppose I'm not really using cppwinrt at this point?
+* Now, we're going to make _another_ cppwinrt console app, to try and use our component we just authored.
+  - If we try just adding an `#include <winrt/WinRTComponent.h>` to the new app's pch.h, we'll get duplicated `take_ownership_from_abi`, in the module's impl and in the component's normalling included `base.h`. So now we need a way to only include one copy of that. Do we create a module for that? Seems like a solution.
+* Tried making a `WinRTComponent.ixx` as a module for this component. It's going... poorly.

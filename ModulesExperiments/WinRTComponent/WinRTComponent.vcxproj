@@ -130,6 +130,7 @@
     <ClCompile Include="Class.cpp">
       <DependentUpon>Class.idl</DependentUpon>
     </ClCompile>
+    <ClCompile Include="WinRTComponent.ixx" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
   </ItemGroup>
   <ItemGroup>
