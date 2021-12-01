@@ -18,8 +18,10 @@ I'm not sure how I generated that the first time around. Just copy-pasta'd the i
 
 --------------------------------------------------------------------------------
 
-###### Original notes, circa may 2021
-
+<details>
+<summary>
+Original notes, circa may 2021
+</summary>
 
 ```bat
 [ 9:19:44.22]>C:\Users\migrie\dev\scratch\PchSizeExperiments\ConsoleApp>
@@ -103,6 +105,7 @@ MSVC\14.28.29910\bin\HostX86\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\mig
 
 okay there's nothing in that build commandline that indicates where the `ifc` and `obj` are going to land. Nuts.
 
+</details>
 
 --------------------------------------------------------------------------------
 End of original notes.
@@ -151,7 +154,7 @@ End of original notes.
 - [ ] **FOLLOW UP**: What's the actually right way to have one project in VS depend on a module project? I should be able to just add it as a reference, right? It should be seamless.
 * Add a new Runtime Component project to the solution. This should build perfectly fine.
 * Struggle with mismatched winrt headers.
-* IN `ModulesExperiments\ModulesExperiments\CppWinRTModule`, "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\cppwinrt.exe" -verbose -ref local -prefix -opt -out .` was the command that actually ended up generating the projection!
+* IN `ModulesExperiments\ModulesExperiments\CppWinRTModule`, ~`"C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\cppwinrt.exe" -verbose -ref local -prefix -opt -out .` was the command that actually ended up generating the projection!~
   - That of course uses `2.0.201201.7`, which is not the most up to date cppwinrt version. That's probably jsut the one that ships with VS
   - `"D:\dev\scratch\ModulesExperiments\ModulesExperiments\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\bin\cppwinrt.exe" -verbose -overwrite -ref local -prefix -opt -out D:\dev\scratch\ModulesExperiments\ModulesExperiments\CppWinRTModule` works better
   - GAH that didn't generate the ixx...? Wait no that's in the `winrt/` subdir
@@ -182,3 +185,62 @@ End of original notes.
   - If we try just adding an `#include <winrt/WinRTComponent.h>` to the new app's pch.h, we'll get duplicated `take_ownership_from_abi`, in the module's impl and in the component's normalling included `base.h`. So now we need a way to only include one copy of that. Do we create a module for that? Seems like a solution.
 * Tried making a `WinRTComponent.ixx` as a module for this component. It's going... poorly.
 * Instead, made a totally separate project for the `WinRTComponentModule`, which literally just makes a module for the `WinRTComponent`. It's a static lib project, with `<ClCompile.CompileAs>CompileAsCppModule</CompileAs>`
+
+
+
+
+<hr>
+
+### References
+
+These are mostly for my own use.
+
+#### Email threads
+
+* "cppwinrt modules, EIM edition", (Scott)
+* "CppWinRT Modules Support", (Cameron)
+* "cppwinrt modules notes", (Kenny)
+
+#### Internal issues
+
+* [Deliverable 32432525](https://task.ms/32432525): Investigate ways of decreasing PCH sizes for C++/WinRT (esp. for XAML projects)
+  - This one's on the cppwinrt team
+* [Deliverable 32432449](https://task.ms/32432449): Improve C++/WinRT build performance for first- and third-party developers
+  - This one's on the cppwinrt team
+* [Deliverable 32316019](https://task.ms/32316019): C++/WinRT Fit and Finish Improvements for WinUI 3 Developers
+  - This one's on the XAML compiler team
+  * with child: [Task 32426360](https://task.ms/32426360): C++/WinRT XAML: address disk space requirements for precompiling WinUI headers - reevaluate modules
+
+#### Compiler bugs
+* [Mega query](https://developercommunity.visualstudio.com/search?space=62&q=modules)
+* [identifier not found, with default member initializer and global module fragment](https://developercommunity.visualstudio.com/t/identifier-not-found-with-default-membe/1376824)
+  - linked to by microsoft/cppwinrt#953
+
+#### C++WinRT PRs, issues
+
+* [C++ modules conformance microsoft/cppwinrt#495](https://github.com/microsoft/cppwinrt/pull/495)
+* [Improve C++20 modules support microsoft/cppwinrt#953](https://github.com/microsoft/cppwinrt/pull/953)
+
+#### Other Reference
+
+* [Overview of modules in C++](https://docs.microsoft.com/en-us/cpp/cpp/modules-cpp?view=msvc-170)
+* [A Tour of C++ Modules in Visual Studio](https://devblogs.microsoft.com/cppblog/a-tour-of-cpp-modules-in-visual-studio/), _October 29th, 2020_
+* [Standard C++20 Modules support with MSVC in Visual Studio 2019 version 16.8](https://devblogs.microsoft.com/cppblog/standard-c20-modules-support-with-msvc-in-visual-studio-2019-version-16-8/), _September 14th, 2020_
+* [Moving a project to C++ named Modules](https://devblogs.microsoft.com/cppblog/moving-a-project-to-cpp-named-modules/) _August 10th, 2021_
+* cppwinrt#953 spawned a discussion on std-proposals mailing list. It subsequently died without a good resolution. Unclear if this is really blocking or not?
+  > **[std-proposals] Template specializations in modules**
+  >  -  [Charles Milette](https://lists.isocpp.org/std-proposals/2021/06/2683.php) (2021-06-12 00:18:20)
+  >  -  [Jason McKesson](https://lists.isocpp.org/std-proposals/2021/06/2675.php) (2021-06-03 00:24:54)
+  >  -  [Charles Milette](https://lists.isocpp.org/std-proposals/2021/06/2674.php) (2021-06-02 22:44:59)
+  >  -  [Jason McKesson](https://lists.isocpp.org/std-proposals/2021/06/2673.php) (2021-06-02 02:00:10)
+  >  -  [Charles Milette](https://lists.isocpp.org/std-proposals/2021/06/2672.php) (2021-06-01 16:28:08)
+
+
+
+#### Interested parties
+
+* Kenny, obviously
+* Scott, obviously
+* Cameron, compiler team
+* asklar, for winrt tooling reasons
+* @sylveon on github, who is seemingly quite knowledgable
