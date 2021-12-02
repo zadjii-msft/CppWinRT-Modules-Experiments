@@ -22,7 +22,7 @@ This should be comprehensive enough that it would cover all the pure C++/WinRT u
 
 Project                    | `pch.h` state | modules state | notes
 ---------------------------|---------------|---------------|---------------
-`01-SimpleConsoleApp`      | 📝 | 📝 |
+`01-SimpleConsoleApp`      | ✔ | ✔ |
 `02-SimpleAsyncAction`     | 📝 | 📝 |
 `03-SimpleCustomComponent` | 📝 | 📝 |
 `04-CustomConsoleApp`      | 📝 | 📝 |
@@ -33,7 +33,7 @@ Project                    | `pch.h` state | modules state | notes
 `08-SeparateLibComponent`  | todo | todo |
 
 * 📝: In progress
-* ✔: Complete
+* ✔: Complete, works.
 * ❌: Authored, with errors
 
 [microsoft/cppwinrt/953]: https://github.com/microsoft/cppwinrt/pull/953
