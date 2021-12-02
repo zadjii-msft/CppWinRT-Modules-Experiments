@@ -185,8 +185,18 @@ End of original notes.
   - If we try just adding an `#include <winrt/WinRTComponent.h>` to the new app's pch.h, we'll get duplicated `take_ownership_from_abi`, in the module's impl and in the component's normalling included `base.h`. So now we need a way to only include one copy of that. Do we create a module for that? Seems like a solution.
 * Tried making a `WinRTComponent.ixx` as a module for this component. It's going... poorly.
 * Instead, made a totally separate project for the `WinRTComponentModule`, which literally just makes a module for the `WinRTComponent`. It's a static lib project, with `<ClCompile.CompileAs>CompileAsCppModule</CompileAs>`
+<hr>
 
+###### z 02-Dec-2021
 
+Working on coming up with uniform scenarios, and implementing as both module and `pch.h`.
+
+Observed that the module version of the exe is WAY bigger:
+
+![module-vs-pch-exe-size-001](module-vs-pch-exe-size-001.png)
+
+36.5 MB vs 159KB is 229.47x bigger. That's not gonna fly...
+* [ ] **FOLLOW UP**: Is this just a debug thing? Maybe the release version is more trimmed.
 
 
 <hr>
