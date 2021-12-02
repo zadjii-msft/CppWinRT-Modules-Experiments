@@ -221,6 +221,14 @@ These are mostly for my own use.
 * [C++ modules conformance microsoft/cppwinrt#495](https://github.com/microsoft/cppwinrt/pull/495)
 * [Improve C++20 modules support microsoft/cppwinrt#953](https://github.com/microsoft/cppwinrt/pull/953)
 
+#### WinUI (XAML) PRs, issues
+
+None of these right now have anything substantial in them other than whinging about the tooling.
+
+* [leverage C++ modules support recently added to Winrt/C++ to improve build times](https://github.com/microsoft/microsoft-ui-xaml/issues/2012)
+* [Proposal: XAML C++ should support C++ modules when generating code](https://github.com/microsoft/microsoft-ui-xaml/issues/5822)
+* [Proposal: Improve C++ tooling](https://github.com/microsoft/microsoft-ui-xaml/issues/4082)
+
 #### Other Reference
 
 * [Overview of modules in C++](https://docs.microsoft.com/en-us/cpp/cpp/modules-cpp?view=msvc-170)
