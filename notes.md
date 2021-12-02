@@ -197,6 +197,8 @@ Observed that the module version of the exe is WAY bigger:
 
 36.5 MB vs 159KB is 229.47x bigger. That's not gonna fly...
 * [ ] **FOLLOW UP**: Is this just a debug thing? Maybe the release version is more trimmed.
+* Scenario 01 was built without a hitch.
+* Scenario 02 had many more issues. Notes in [`scenarios/02-SimpleAsyncAction/notes.md`](scenarios/02-SimpleAsyncAction/notes.md)
 
 
 <hr>

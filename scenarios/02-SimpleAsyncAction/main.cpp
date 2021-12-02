@@ -7,6 +7,27 @@ import winrt;
 #pragma comment(lib, "ole32")
 #pragma comment(lib, "advapi32")
 
+#include <algorithm>
+#include <array>
+#include <atomic>
+#include <charconv>
+#include <chrono>
+#include <cstddef>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <optional>
+#include <stdexcept>
+#include <string_view>
+#include <string>
+#include <thread>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+#include <experimental/coroutine>
+
 #endif
 
 #ifndef COMPILE_WITH_MODULES
