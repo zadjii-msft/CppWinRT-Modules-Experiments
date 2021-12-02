@@ -23,8 +23,8 @@ This should be comprehensive enough that it would cover all the pure C++/WinRT u
 Project                    | `pch.h` state | modules state | notes
 ---------------------------|---------------|---------------|---------------
 `01-SimpleConsoleApp`      | ✔ | ✔ |
-`02-SimpleAsyncAction`     | 📝 | ❌ |
-`03-SimpleCustomComponent` | 📝 | 📝 |
+`02-SimpleAsyncAction`     | ✔ | ❌ |
+`03-SimpleCustomComponent` | ✔ | 📝 |
 `04-CustomConsoleApp`      | 📝 | 📝 |
 `04-SimpleXamlApp`         | todo | todo |
 `05-CustomXamlApp`         | todo | todo |
