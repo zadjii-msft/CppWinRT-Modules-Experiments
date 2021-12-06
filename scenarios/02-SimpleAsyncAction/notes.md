@@ -42,7 +42,7 @@ Okay, without any other modifications, this is the first set of errors I got bui
 I tried slamming includes in for `<experimental/coroutine>` and the rest of the STL, but they didn't really make it better.
 
 
-Okay, i think that boild down to two main issues.
+Okay, i think that boiled down to two main issues.
 
 ```
 error C2893: Failed to specialize function template 'unknown-type std::begin(_Container &)'

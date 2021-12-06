@@ -23,7 +23,7 @@ This should be comprehensive enough that it would cover all the pure C++/WinRT u
 Project                    | `pch.h` state | modules state | notes
 ---------------------------|---------------|---------------|---------------
 `01-SimpleConsoleApp`      | ✔ | ✔ |
-`02-SimpleAsyncAction`     | ✔ | ❌ | Maybe [microsoft/cppwinrt/953] fixed this?
+`02-SimpleAsyncAction`     | ✔ | ❌ | Maybe [microsoft/cppwinrt/953] fixed this? See also [02-SimpleAsyncAction/notes.md](./02-SimpleAsyncAction/notes.md)
 `03-SimpleCustomComponent` | ✔ | 📝 |
 `04-CustomConsoleApp`      | ✔ | 📝 |
 `05-SimpleXamlApp`         | todo | todo |
