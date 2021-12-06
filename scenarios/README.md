@@ -18,7 +18,7 @@ This is a list of various samples we could create, with both `pch`'s and modules
 This should be comprehensive enough that it would cover all the pure C++/WinRT use cases with modules. I'm sure there's other stranger edge cases, but this should be enoguh to give the 👍
 
 
-#### Current progress
+#### Current progress [█████▒▒▒__________]
 
 Project                    | `pch.h` state | modules state | notes
 ---------------------------|---------------|---------------|---------------
