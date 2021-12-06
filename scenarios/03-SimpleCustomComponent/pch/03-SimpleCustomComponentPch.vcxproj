@@ -85,6 +85,17 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
+
+  <PropertyGroup>
+
+    <!-- put the output in `$(bin)\pch\$(RootNamespace).dll, so any exe's can
+    load our winrt type via SxS activation with the $(RootNamespace).winmd in
+    this directory. -->
+
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\pch\</OutDir>
+    <TargetName>$(RootNamespace)</TargetName>
+  </PropertyGroup>
+
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>

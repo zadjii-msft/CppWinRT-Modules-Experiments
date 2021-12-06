@@ -33,6 +33,16 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+
+  <PropertyGroup>
+
+    <!-- put the output in `$(bin)\pch\$(ProjectName).exe, so we can
+    load our winrt types via SxS activation with the .winmd's in
+    this directory. -->
+
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\pch\</OutDir>
+  </PropertyGroup>
+
   <PropertyGroup Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v143</PlatformToolset>

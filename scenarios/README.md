@@ -23,9 +23,9 @@ This should be comprehensive enough that it would cover all the pure C++/WinRT u
 Project                    | `pch.h` state | modules state | notes
 ---------------------------|---------------|---------------|---------------
 `01-SimpleConsoleApp`      | ✔ | ✔ |
-`02-SimpleAsyncAction`     | ✔ | ❌ |
+`02-SimpleAsyncAction`     | ✔ | ❌ | Maybe [microsoft/cppwinrt/953] fixed this?
 `03-SimpleCustomComponent` | ✔ | 📝 |
-`04-CustomConsoleApp`      | ✔ | 📝 | Works, but you have to `copy 03-SimpleCustomComponentPch.dll SimpleCustomComponent.dll`, so it can SxS init the winrt type.
+`04-CustomConsoleApp`      | ✔ | 📝 |
 `05-SimpleXamlApp`         | todo | todo |
 `06-CustomXamlApp`         | todo | todo |
 `07-SimpleWinUiApp`        | todo | todo |
@@ -37,9 +37,11 @@ Project                    | `pch.h` state | modules state | notes
 * ❌: Authored, with errors
 * 🛑: blocked on finishing for some reason
 
-* [ ] I made an absolutely stupid choice with the naming here.
+* [x] I made an absolutely stupid choice with the naming here.
   - The `01-`'s at the start really mess with the templates. They hate that, and the `RootNamespace`s are all messed up.
   -  When compiling `03`, you'll get 3 things: `03-SimpleCustomComponentPch.dll`, `03-SimpleCustomComponentMod.dll`, and `SimpleCustomComponent.winmd`. These are bad, because to unpackaged initialize WinRT, the types for `SimpleCustomComponent.winmd` need to be in `SimpleCustomComponent.dll`, so the you need to manually copypasta the implementation you want to test.
   - That shouldn't be too hard to fix.
+  - put the output in `{mod or pch}\$(RootNamespace).dll`, so we can do the SxS thing correctly.
+* [ ] I should check if the cppwinrt compiler from [microsoft/cppwinrt/953] fixes the module version of `02-SimpleAsyncAction`.
 
 [microsoft/cppwinrt/953]: https://github.com/microsoft/cppwinrt/pull/953
