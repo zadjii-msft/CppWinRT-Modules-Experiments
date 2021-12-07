@@ -2,8 +2,6 @@
 
 #ifdef COMPILE_WITH_MODULES
 
-// #include <ctxtcall.h>
-// #include <Objbase.h>
 #include <unknwn.h>
 
 #include <algorithm>
@@ -25,30 +23,13 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
-// #include <experimental/coroutine>
 #include <coroutine>
 
-//inline std::pair<int32_t, int32_t> get_apartment_type() noexcept
-//{
-//    APTTYPE aptType;
-//    APTTYPEQUALIFIER aptTypeQualifier;
-//    if (0 == CoGetApartmentType(&aptType, &aptTypeQualifier))
-//    {
-//        return { aptType, aptTypeQualifier };
-//    }
-//    else
-//    {
-//        return { 1 /* APTTYPE_MTA */, 1 /* APTTYPEQUALIFIER_IMPLICIT_MTA */ };
-//    }
-//}
-
-// import winrt;
 import winrtWith953Patch;
 #pragma comment(lib, "oleaut32")
 #pragma comment(lib, "ole32")
 #pragma comment(lib, "advapi32")
 
-// #include "fake_coroutine_traits.h"
 
 #endif
 
@@ -75,6 +56,7 @@ void PrintFeed(SyndicationFeed const& syndicationFeed)
 
 fire_and_forget DoAnotherThing()
 {
+    // A silly fire_and_forget, just to compare fire_and_forgets vs a full IAsyncAction
     co_await winrt::resume_background();
     std::wcout << L"Who knows where I'll be printed?!" << std::endl;
 }
@@ -91,7 +73,7 @@ int main()
 {
     winrt::init_apartment();
 
-    // As mentioned in cppwinrt#935
+    // As mentioned in microsoft/cppwinrt#935. Root cause is yet unknown.
     auto name{ winrt::name_of<Uri>() };
     name;
 

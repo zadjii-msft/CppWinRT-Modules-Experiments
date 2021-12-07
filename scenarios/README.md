@@ -18,12 +18,12 @@ This is a list of various samples we could create, with both `pch`'s and modules
 This should be comprehensive enough that it would cover all the pure C++/WinRT use cases with modules. I'm sure there's other stranger edge cases, but this should be enoguh to give the 👍
 
 
-#### Current progress [█████▒▒▒__________]
+#### Current progress [██████▒▒__________]
 
 Project                    | `pch.h` state | modules state | notes
 ---------------------------|---------------|---------------|---------------
 `01-SimpleConsoleApp`      | ✔ | ✔ |
-`02-SimpleAsyncAction`     | ✔ | ❌ | Maybe [microsoft/cppwinrt/953] fixed this? See also [02-SimpleAsyncAction/notes.md](./02-SimpleAsyncAction/notes.md)
+`02-SimpleAsyncAction`     | ✔ | ⚠️ | [microsoft/cppwinrt/953] nearly fixed this. Needs another patch to work around a compiler issue. See also [02-SimpleAsyncAction/notes.md](./02-SimpleAsyncAction/notes.md), especially the tl;dr.
 `03-SimpleCustomComponent` | ✔ | 📝 |
 `04-CustomConsoleApp`      | ✔ | 📝 |
 `05-SimpleXamlApp`         | todo | todo |
@@ -35,6 +35,7 @@ Project                    | `pch.h` state | modules state | notes
 * 📝: In progress
 * ✔: Complete, works.
 * ❌: Authored, with errors
+* ⚠️: Complete, works, but with a cppwinrt patch.
 * 🛑: blocked on finishing for some reason
 
 * [x] I made an absolutely stupid choice with the naming here.
