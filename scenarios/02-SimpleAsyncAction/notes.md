@@ -54,3 +54,132 @@ error C2893: Failed to specialize function template 'unknown-type std::begin(_Co
 ```
 error C2039: 'promise_type': is not a member of 'std::experimental::coroutine_traits<winrt::Windows::Foundation::IAsyncAction>'
 ```
+
+
+OBSERVATION:
+I must be doing some ranges thing wrong with cpp20. Converting the code to instead:
+
+```diff
+void PrintFeed(SyndicationFeed const& syndicationFeed)
+{
+-    for (SyndicationItem const& syndicationItem : syndicationFeed.Items())
+-    {
++    for (auto i = 0u; i < syndicationFeed.Items().Size(); i++)
++    {
++        const auto& syndicationItem{ syndicationFeed.Items().GetAt(i) };
+        std::wcout << syndicationItem.Title().Text().c_str() << std::endl;
+    }
+```
+
+then we no longer get those ranges issues. Then, with both the 953 patched and the release version of cppwinrt, we get the following build error:
+
+```
+3>...\02-SimpleAsyncAction\main.cpp(62,82): error C2039: 'promise_type': is not a member of 'std::experimental::coroutine_traits<winrt::Windows::Foundation::IAsyncAction>'
+3>...\02-SimpleAsyncAction\main.cpp(62,1): error C2440: 'initializing': cannot convert from 'initializer list' to 'winrt::Windows::Web::Syndication::SyndicationFeed'
+3>...\02-SimpleAsyncAction\main.cpp(70,21): error C2065: 'ProcessFeedAsync': undeclared identifier
+```
+
+```
+'promise_type': is not a member of 'std::experimental::coroutine_traits<winrt::Windows::Foundation::IAsyncAction>'
+```
+
+promise_type is defined over in `Windows.Foundation.h`,
+
+```c++
+
+#ifdef __cpp_lib_coroutine
+namespace std
+#else
+namespace std::experimental
+#endif
+{
+    template <typename... Args>
+    struct coroutine_traits<winrt::Windows::Foundation::IAsyncAction, Args...>
+    {
+        struct promise_type final : winrt::impl::promise_base<promise_type, winrt::Windows::Foundation::IAsyncAction>
+        {
+            void return_void() const noexcept
+            {
+            }
+        };
+    };
+```
+
+so maybe we're setting `__cpp_lib_coroutine` wrong. Maybe the module thinks it's defined, and the impl doesn't?
+
+
+I've checked
+* module and exe both `/await:strict`
+* module `/await:strict`, exe `/await`
+* module and exe both `/await`
+* module `/await:strict`, exe `/await`
+
+
+
+Ah I know what I did wrong. I once again had the include path pointing at the wrong files, so it wasn't actually including the updated cppwinty module, it was only including the SDK version.
+
+
+Adding that, and some other includes, we get down to the crux of the issue:
+
+## tl;dr
+
+When compiling the exe with the patched cppwinrt module, you'll get an error like:
+
+```
+...00-WinRTModule\winrt-with-953-patch\winrt\base.h(8689,34): error C3861: 'get_apartment_type': identifier not found
+```
+
+The code that causes this is in `base.h`:
+
+```c++
+
+namespace winrt::impl
+{
+    ...
+
+    inline std::pair<int32_t, int32_t> get_apartment_type() noexcept
+    {
+        int32_t aptType;
+        int32_t aptTypeQualifier;
+        if (0 == WINRT_IMPL_CoGetApartmentType(&aptType, &aptTypeQualifier))
+        {
+            return { aptType, aptTypeQualifier };
+        }
+        else
+        {
+            return { 1 /* APTTYPE_MTA */, 1 /* APTTYPEQUALIFIER_IMPLICIT_MTA */ };
+        }
+    }
+
+    struct resume_apartment_context
+    {
+        resume_apartment_context() = default;
+        resume_apartment_context(std::nullptr_t) : m_context(nullptr), m_context_type(-1) {}
+        resume_apartment_context(resume_apartment_context const&) = default;
+        resume_apartment_context(resume_apartment_context&& other) noexcept :
+            m_context(std::move(other.m_context)), m_context_type(std::exchange(other.m_context_type, -1)) {}
+        resume_apartment_context& operator=(resume_apartment_context const&) = default;
+        resume_apartment_context& operator=(resume_apartment_context&& other) noexcept
+        {
+            m_context = std::move(other.m_context);
+            m_context_type = std::exchange(other.m_context_type, -1);
+            return *this;
+        }
+        bool valid() const noexcept
+        {
+            return m_context_type >= 0;
+        }
+
+        com_ptr<IContextCallback> m_context = try_capture<IContextCallback>(WINRT_IMPL_CoGetObjectContext);
+        int32_t m_context_type = get_apartment_type().first;
+    };
+
+```
+
+the error comes from the last line in the `resume_apartment_context` struct, combined with a [compiler error](https://developercommunity.visualstudio.com/t/identifier-not-found-with-default-membe/1376824):
+
+```c++
+int32_t m_context_type = get_apartment_type().first;
+```
+
+Even if you manually add the definition of `get_apartment_type` before the WinRT module, you're still going to run into the error in other places. `IContextCallback` in that same struct is also in the `winrt::impl` module, and therefore not exported.

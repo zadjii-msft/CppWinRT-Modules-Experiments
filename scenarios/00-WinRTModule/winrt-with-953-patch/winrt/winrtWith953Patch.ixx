@@ -2,6 +2,9 @@
 
 module;
 
+// As a sanity check - make sure we're using the headers we generated
+#define CPPWINRT_VERSION "2.0.210806.1"
+
 #include <algorithm>
 #include <array>
 #include <atomic>

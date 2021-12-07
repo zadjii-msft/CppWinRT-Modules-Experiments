@@ -2,10 +2,11 @@
 
 #ifdef COMPILE_WITH_MODULES
 
-import winrt;
-#pragma comment(lib, "oleaut32")
-#pragma comment(lib, "ole32")
-#pragma comment(lib, "advapi32")
+
+// #include <ctxtcall.h>
+// #include <Objbase.h>
+#include <unknwn.h>
+
 
 #include <algorithm>
 #include <array>
@@ -26,7 +27,30 @@ import winrt;
 #include <unordered_map>
 #include <utility>
 #include <vector>
-#include <experimental/coroutine>
+// #include <experimental/coroutine>
+#include <coroutine>
+
+//inline std::pair<int32_t, int32_t> get_apartment_type() noexcept
+//{
+//    APTTYPE aptType;
+//    APTTYPEQUALIFIER aptTypeQualifier;
+//    if (0 == CoGetApartmentType(&aptType, &aptTypeQualifier))
+//    {
+//        return { aptType, aptTypeQualifier };
+//    }
+//    else
+//    {
+//        return { 1 /* APTTYPE_MTA */, 1 /* APTTYPEQUALIFIER_IMPLICIT_MTA */ };
+//    }
+//}
+
+// import winrt;
+import winrtWith953Patch;
+#pragma comment(lib, "oleaut32")
+#pragma comment(lib, "ole32")
+#pragma comment(lib, "advapi32")
+
+// #include "fake_coroutine_traits.h"
 
 #endif
 
@@ -41,13 +65,22 @@ using namespace Windows::Web::Syndication;
 
 void PrintFeed(SyndicationFeed const& syndicationFeed)
 {
-    for (SyndicationItem const& syndicationItem : syndicationFeed.Items())
+    // for (SyndicationItem const& syndicationItem : syndicationFeed.Items())
+    // {
+    for (auto i = 0u; i < syndicationFeed.Items().Size(); i++)
     {
+        const auto& syndicationItem{ syndicationFeed.Items().GetAt(i) };
+
         std::wcout << syndicationItem.Title().Text().c_str() << std::endl;
     }
 }
 
-IAsyncAction ProcessFeedAsync()
+fire_and_forget DoAnotherThing()
+{
+    std::wcout << L"Who knows where I'll be printed?!" << std::endl;
+}
+
+winrt::Windows::Foundation::IAsyncAction ProcessFeedAsync()
 {
     Uri rssFeedUri{ L"https://blogs.windows.com/feed" };
     SyndicationClient syndicationClient;
@@ -58,6 +91,8 @@ IAsyncAction ProcessFeedAsync()
 int main()
 {
     winrt::init_apartment();
+
+    DoAnotherThing();
 
     auto processOp{ ProcessFeedAsync() };
     // do other work while the feed is being printed.
