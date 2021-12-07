@@ -2,9 +2,10 @@
 
 #ifdef COMPILE_WITH_MODULES
 
-#define CPPWINRT_VERSION "2.0.210806.1"
-import winrt;
-#define WINRT_EXPORT ;
+// #define CPPWINRT_VERSION "2.0.210806.1"
+// #define _WINRT_SUPPRESS_NUMERICS
+// import winrt;
+// #define WINRT_EXPORT ;
 
 #endif
 
@@ -12,9 +13,9 @@ import winrt;
 
 #ifdef COMPILE_WITH_MODULES
 
-// #define CPPWINRT_VERSION "2.0.210806.1"
-// import winrt;
-// #define WINRT_EXPORT ;
+#define CPPWINRT_VERSION "2.0.210806.1"
+#define _WINRT_SUPPRESS_NUMERICS
+import winrt;
 
 #endif
 

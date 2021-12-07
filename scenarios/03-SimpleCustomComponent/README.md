@@ -74,4 +74,9 @@ Where do you put the `import winrt;` in a component like this?
 
   So, that gets us to
 * A component that's authoring a winrt type should still `#include winrt/base.h`, even if they're using modules.
-
+* If you manually suppress the numerics header,
+  - then `import winrt` in the header before `Class.g.h`, then you'll still get a redefinition for basically everything in the `winrt` namespace, from the `base.h` included via the projection's header.
+  -
+* Changing `take_owner...` to
+  `constexpr take_ownership_from_abi_t take_ownership_from_abi{};`
+  did not fix it
