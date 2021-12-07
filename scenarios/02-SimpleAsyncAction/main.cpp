@@ -77,6 +77,7 @@ void PrintFeed(SyndicationFeed const& syndicationFeed)
 
 fire_and_forget DoAnotherThing()
 {
+    co_await winrt::resume_background();
     std::wcout << L"Who knows where I'll be printed?!" << std::endl;
 }
 

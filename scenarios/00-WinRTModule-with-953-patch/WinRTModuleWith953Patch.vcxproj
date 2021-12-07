@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="winrt-with-953-patch/winrt/winrtWith953Patch.ixx" />
+    <ClCompile Include="winrt/winrtWith953Patch.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="winrt-with-953-patch/winrt/base.h" />
+    <ClInclude Include="winrt/base.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -75,10 +75,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-
-<!--   <PropertyGroup>
-    <CppWinRT_IncludePath>$(SolutionDir)WinRTModule\winrt-with-953-patch\winrt</CppWinRT_IncludePath>
-  </PropertyGroup> -->
 
   <ItemDefinitionGroup>
     <ClCompile>
@@ -163,7 +159,7 @@
     you almost certainly don't want! -->
 
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)00-WinRTModule\winrt-with-953-patch;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)00-WinRTModule-with-953-patch;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
 

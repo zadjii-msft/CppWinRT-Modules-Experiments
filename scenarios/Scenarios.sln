@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01-SimpleConsoleAppMod", "0
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinRTModule", "00-WinRTModule\WinRTModule.vcxproj", "{00008F98-A466-4690-B2C0-239486ABE000}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinRTModuleWith953Patch", "00-WinRTModule\WinRTModuleWith953Patch.vcxproj", "{00008F98-A466-4690-B2C0-239486ABE953}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinRTModuleWith953Patch", "00-WinRTModule-with-953-patch\WinRTModuleWith953Patch.vcxproj", "{00008F98-A466-4690-B2C0-239486ABE953}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02-SimpleAsyncActionMod", "02-SimpleAsyncAction\mod\02-SimpleAsyncActionMod.vcxproj", "{2225DE20-9092-4111-928E-0F760D9FE222}"
 EndProject
