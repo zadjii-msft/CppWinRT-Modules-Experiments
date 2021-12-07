@@ -200,6 +200,12 @@ Observed that the module version of the exe is WAY bigger:
 * Scenario 01 was built without a hitch.
 * Scenario 02 had many more issues. Notes in [`scenarios/02-SimpleAsyncAction/notes.md`](scenarios/02-SimpleAsyncAction/notes.md)
 
+###### z 07-Dec-2021
+
+Testing the cppwinrt#953 patch with more updated compiler verison. Checked out that branch and build cppwinrt.exe, as well as the test_cpp20 project in that solution. That seems to build fine, so hopefully it builds fine here too.
+
+* copied the output from `cppwinrt\_build\x64\Debug\winrt` to `00-WinRTModule\winrt-with-953-patch\winrt`. Made another winrt module project that uses that instead.
+
 
 <hr>
 
