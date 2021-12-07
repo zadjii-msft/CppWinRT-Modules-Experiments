@@ -2,11 +2,9 @@
 
 #ifdef COMPILE_WITH_MODULES
 
-
 // #include <ctxtcall.h>
 // #include <Objbase.h>
 #include <unknwn.h>
-
 
 #include <algorithm>
 #include <array>
@@ -92,6 +90,10 @@ winrt::Windows::Foundation::IAsyncAction ProcessFeedAsync()
 int main()
 {
     winrt::init_apartment();
+
+    // As mentioned in cppwinrt#935
+    auto name{ winrt::name_of<Uri>() };
+    name;
 
     DoAnotherThing();
 

@@ -183,3 +183,25 @@ int32_t m_context_type = get_apartment_type().first;
 ```
 
 Even if you manually add the definition of `get_apartment_type` before the WinRT module, you're still going to run into the error in other places. `IContextCallback` in that same struct is also in the `winrt::impl` module, and therefore not exported.
+
+
+### Solutions(?)
+You can manually patch base.h to workaround the compiler bug.
+
+If you do that, the code will compile! but it won't run:
+
+```
+    02-SimpleAsyncActionMod.exe!std::basic_string_view<wchar_t,std::char_traits<wchar_t>>::basic_string_view<wchar_t,std::char_traits<wchar_t>>(const wchar_t * const _Cts, const unsigned __int64 _Count) Line 1263    C++
+    02-SimpleAsyncActionMod.exe!winrt::impl::to_wstring_view<23>(const wchar_t[23] & value) Line 1553   C++
+>   02-SimpleAsyncActionMod.exe!winrtWith953Patch::winrt::name_of<winrt::Windows::Foundation::Uri>() Line 1562  C++
+    02-SimpleAsyncActionMod.exe!winrt::impl::factory_cache_entry<winrt::Windows::Foundation::Uri,winrt::Windows::Foundation::IUriRuntimeClassFactory>::call<`winrt::Windows::Foundation::Uri::Uri'::`1'::<lambda_347_> &>(winrt::Windows::Foundation::Uri::{ctor}::__l1::<lambda_347_> & callback) Line 6509    C++
+    02-SimpleAsyncActionMod.exe!winrt::impl::call_factory<winrt::Windows::Foundation::Uri,winrt::Windows::Foundation::IUriRuntimeClassFactory,`winrt::Windows::Foundation::Uri::Uri'::`1'::<lambda_347_>>(winrt::Windows::Foundation::Uri::{ctor}::__l1::<lambda_347_> && callback) Line 6553   C++
+    02-SimpleAsyncActionMod.exe!winrtWith953Patch::winrt::Windows::Foundation::Uri::Uri(const winrt::param::hstring & uri) Line 2302    C++
+    02-SimpleAsyncActionMod.exe!ProcessFeedAsync() Line 86  C++
+```
+
+This might be the
+
+> Adding winrt::name_of<Uri>(); in main, weirdly, solves it and makes the example run as expected. This might be a codegen bug but I haven't taken time to reduce it yet.
+
+thing that @sylveon mentioned

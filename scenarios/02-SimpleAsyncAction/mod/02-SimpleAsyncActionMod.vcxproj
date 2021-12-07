@@ -69,7 +69,6 @@
       <AdditionalOptions>%(AdditionalOptions) /permissive- /bigobj /await:strict</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
-
   <ItemDefinitionGroup>
     <!-- Make sure this is _before_ cppwinrt targets, otherwise it'll assume
     we're on cpp17 and set /await instead of /await:strict -->
@@ -78,7 +77,6 @@
       <PreprocessorDefinitions>COMPILE_WITH_MODULES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
-
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -119,9 +117,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\00-WinRTModule\WinRTModule.vcxproj">
-      <Project>{00008f98-a466-4690-b2c0-239486abe994}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\00-WinRTModule-with-953-patch\WinRTModuleWith953Patch.vcxproj">
       <Project>{00008f98-a466-4690-b2c0-239486abe953}</Project>
     </ProjectReference>
