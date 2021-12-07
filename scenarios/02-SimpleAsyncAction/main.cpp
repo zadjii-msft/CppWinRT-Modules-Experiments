@@ -2,10 +2,7 @@
 
 #ifdef COMPILE_WITH_MODULES
 
-import winrt;
-#pragma comment(lib, "oleaut32")
-#pragma comment(lib, "ole32")
-#pragma comment(lib, "advapi32")
+#include <unknwn.h>
 
 #include <algorithm>
 #include <array>
@@ -26,7 +23,13 @@ import winrt;
 #include <unordered_map>
 #include <utility>
 #include <vector>
-#include <experimental/coroutine>
+#include <coroutine>
+
+import winrtWith953Patch;
+#pragma comment(lib, "oleaut32")
+#pragma comment(lib, "ole32")
+#pragma comment(lib, "advapi32")
+
 
 #endif
 
@@ -41,13 +44,24 @@ using namespace Windows::Web::Syndication;
 
 void PrintFeed(SyndicationFeed const& syndicationFeed)
 {
-    for (SyndicationItem const& syndicationItem : syndicationFeed.Items())
+    // for (SyndicationItem const& syndicationItem : syndicationFeed.Items())
+    // {
+    for (auto i = 0u; i < syndicationFeed.Items().Size(); i++)
     {
+        const auto& syndicationItem{ syndicationFeed.Items().GetAt(i) };
+
         std::wcout << syndicationItem.Title().Text().c_str() << std::endl;
     }
 }
 
-IAsyncAction ProcessFeedAsync()
+fire_and_forget DoAnotherThing()
+{
+    // A silly fire_and_forget, just to compare fire_and_forgets vs a full IAsyncAction
+    co_await winrt::resume_background();
+    std::wcout << L"Who knows where I'll be printed?!" << std::endl;
+}
+
+winrt::Windows::Foundation::IAsyncAction ProcessFeedAsync()
 {
     Uri rssFeedUri{ L"https://blogs.windows.com/feed" };
     SyndicationClient syndicationClient;
@@ -58,6 +72,12 @@ IAsyncAction ProcessFeedAsync()
 int main()
 {
     winrt::init_apartment();
+
+    // As mentioned in microsoft/cppwinrt#935. Root cause is yet unknown.
+    auto name{ winrt::name_of<Uri>() };
+    name;
+
+    DoAnotherThing();
 
     auto processOp{ ProcessFeedAsync() };
     // do other work while the feed is being printed.

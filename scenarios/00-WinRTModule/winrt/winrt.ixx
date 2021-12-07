@@ -2,8 +2,8 @@
 
 module;
 
+// As a sanity check - make sure we're using the headers we generated
 #define CPPWINRT_VERSION "2.0.210806.1"
-
 
 #include <algorithm>
 #include <array>
@@ -36,7 +36,7 @@ module;
 
 namespace winrt::impl
 {
-    template <typename T = void>
+    template<typename T = void>
     using coroutine_handle = std::coroutine_handle<T>;
 
     using suspend_always = std::suspend_always;
@@ -49,7 +49,7 @@ namespace winrt::impl
 
 namespace winrt::impl
 {
-    template <typename T = void>
+    template<typename T = void>
     using coroutine_handle = std::experimental::coroutine_handle<T>;
 
     using suspend_always = std::experimental::suspend_always;

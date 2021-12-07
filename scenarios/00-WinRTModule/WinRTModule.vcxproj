@@ -76,15 +76,15 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
 
-  <PropertyGroup>
+<!--   <PropertyGroup>
     <CppWinRT_IncludePath>$(SolutionDir)CppWinRTModule\winrt</CppWinRT_IncludePath>
-  </PropertyGroup>
+  </PropertyGroup> -->
 
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>_CONSOLE;WIN32_LEAN_AND_MEAN;WINRT_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
-      <AdditionalOptions>%(AdditionalOptions) /permissive- /bigobj /await </AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /permissive- /bigobj /await:strict </AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalModuleDependencies>%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
     </ClCompile>
@@ -157,8 +157,13 @@
 
 
   <ItemDefinitionGroup>
+
+    <!-- IMPORTANT! If this doesn't point at the directory that contains our
+    winrt/ folder, then we'll use the SDK version of the winrt headers, which
+    you almost certainly don't want! -->
+
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)CppWinRTModule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)00-WinRTModule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
 
