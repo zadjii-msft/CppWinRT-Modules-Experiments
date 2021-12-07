@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="winrt-with-953-patch/winrt/winrt.ixx" />
+    <ClCompile Include="winrt-with-953-patch/winrt/winrtWith953Patch.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="winrt-with-953-patch/winrt/base.h" />

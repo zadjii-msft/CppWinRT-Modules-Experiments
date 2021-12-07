@@ -44,7 +44,7 @@ module;
 #include <Unknwn.h>
 #undef GetCurrentTime // Get rid of this evil macro
 
-export module winrt;
+export module winrtWith953Patch;
 #define WINRT_EXPORT export
 #include "winrt/Windows.AI.MachineLearning.h"
 #include "winrt/Windows.AI.MachineLearning.Preview.h"
