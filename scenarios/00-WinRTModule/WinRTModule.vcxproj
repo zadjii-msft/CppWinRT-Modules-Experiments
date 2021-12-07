@@ -87,7 +87,6 @@
       <AdditionalOptions>%(AdditionalOptions) /permissive- /bigobj /await </AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalModuleDependencies>%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
-      <!-- <AdditionalIncludeDirectories>$(SolutionDir)CppWinRTModule\winrt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories> -->
     </ClCompile>
     <Link>
       <AdditionalDependencies>kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
