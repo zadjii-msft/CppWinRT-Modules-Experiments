@@ -24,8 +24,8 @@ Project                    | `pch.h` state | modules state | notes
 ---------------------------|---------------|---------------|---------------
 `01-SimpleConsoleApp`      | ✔ | ✔ |
 `02-SimpleAsyncAction`     | ✔ | ⚠️ | [microsoft/cppwinrt/953] nearly fixed this. Needs another patch to work around a compiler issue. See also [02-SimpleAsyncAction/notes.md](./02-SimpleAsyncAction/notes.md), especially the tl;dr.
-`03-SimpleCustomComponent` | ✔ | 📝 |
-`04-CustomConsoleApp`      | ✔ | 📝 |
+`03-SimpleCustomComponent` | ✔ | ❌ | See [03-SimpleCustomComponent/README.md](./03-SimpleCustomComponent/README.md), especially the tl;dr. Issue with `take_ownership_from_abi`
+`04-CustomConsoleApp`      | ✔ | 📝 | Module version of exe blocked on module version of _component_ (03) building successfully.
 `05-SimpleXamlApp`         | todo | todo |
 `06-CustomXamlApp`         | todo | todo |
 `07-SimpleWinUiApp`        | todo | todo |
@@ -38,11 +38,15 @@ Project                    | `pch.h` state | modules state | notes
 * ⚠️: Complete, works, but with a cppwinrt patch.
 * 🛑: blocked on finishing for some reason
 
+### todos:
+
 * [x] I made an absolutely stupid choice with the naming here.
   - The `01-`'s at the start really mess with the templates. They hate that, and the `RootNamespace`s are all messed up.
   -  When compiling `03`, you'll get 3 things: `03-SimpleCustomComponentPch.dll`, `03-SimpleCustomComponentMod.dll`, and `SimpleCustomComponent.winmd`. These are bad, because to unpackaged initialize WinRT, the types for `SimpleCustomComponent.winmd` need to be in `SimpleCustomComponent.dll`, so the you need to manually copypasta the implementation you want to test.
   - That shouldn't be too hard to fix.
   - put the output in `{mod or pch}\$(RootNamespace).dll`, so we can do the SxS thing correctly.
-* [ ] I should check if the cppwinrt compiler from [microsoft/cppwinrt/953] fixes the module version of `02-SimpleAsyncAction`.
+* [x] I should check if the cppwinrt compiler from [microsoft/cppwinrt/953] fixes the module version of `02-SimpleAsyncAction`.
+  - It does, with minor other alterations.
+* [ ] investigate the `name_of` thing mentioned in [microsoft/cppwinrt/953]. Perhaps we can figure that one out?
 
 [microsoft/cppwinrt/953]: https://github.com/microsoft/cppwinrt/pull/953

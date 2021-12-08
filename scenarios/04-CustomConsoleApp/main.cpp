@@ -12,7 +12,6 @@ import winrt;
 #ifndef COMPILE_WITH_MODULES
 #endif
 
-
 #include <iostream>
 
 using namespace winrt;
@@ -23,10 +22,11 @@ int main()
     init_apartment();
     Uri uri(L"http://aka.ms/cppwinrt");
     printf("Hello, %ls!\n", uri.AbsoluteUri().c_str());
-
+    
     winrt::SimpleCustomComponent::Class foo{};
 
     printf("Foo was %d,\n", foo.MyProperty());
     foo.MyProperty(123);
     printf("    now it's %d\n", foo.MyProperty());
+    printf("My string is %ls\n", foo.MyTestString().c_str());
 }
