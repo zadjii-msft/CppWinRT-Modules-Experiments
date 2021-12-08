@@ -28,5 +28,5 @@ int main()
     printf("Foo was %d,\n", foo.MyProperty());
     foo.MyProperty(123);
     printf("    now it's %d\n", foo.MyProperty());
-    // printf("My string is %ls\n", foo.MyTestString().c_str());
+    printf("My string is %ls\n", foo.MyTestString().c_str());
 }

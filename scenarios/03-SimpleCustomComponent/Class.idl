@@ -5,6 +5,6 @@ namespace SimpleCustomComponent
     {
         Class();
         Int32 MyProperty;
-        // String MyTestString { get; };
+        String MyTestString { get; };
     }
 }

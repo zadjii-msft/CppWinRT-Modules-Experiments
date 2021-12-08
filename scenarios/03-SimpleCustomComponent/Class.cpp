@@ -27,7 +27,7 @@ namespace winrt::SimpleCustomComponent::implementation
         _myProperty = value;
     }
 
-    winrt::hstring MyTestString()
+    winrt::hstring Class::MyTestString()
     {
         winrt::Windows::Foundation::Uri myUri{ L"https://github.com/microsoft/terminal" };
         return myUri.Domain();

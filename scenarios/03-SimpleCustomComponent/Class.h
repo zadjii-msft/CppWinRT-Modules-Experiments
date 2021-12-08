@@ -31,7 +31,7 @@ namespace winrt::SimpleCustomComponent::implementation
 
         int32_t MyProperty();
         void MyProperty(int32_t value);
-        hstring MyTestString();
+        winrt::hstring MyTestString();
 
     private:
         int32_t _myProperty{ 42 };

@@ -171,10 +171,4 @@
   </Target>
   <!-- /CPPWINRT -->
 
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)Generated Files\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
 </Project>
