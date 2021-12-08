@@ -1,12 +1,8 @@
 #include "pch.h"
 
-#ifdef COMPILE_WITH_MODULES
-
-// #define CPPWINRT_VERSION "2.0.210806.1"
-// import winrt;
-// #define WINRT_EXPORT ;
-
-#endif
+// HEY YOU: imports should always come after #includes. Class.h includes
+// Class.g.h which includes SimpleCustomComponent.h which includes
+// <winrt/base.h>, so make sure these are above the `import winrt`.
 
 #include "Class.h"
 #include "Class.g.cpp"
@@ -33,7 +29,7 @@ namespace winrt::SimpleCustomComponent::implementation
 
     winrt::hstring MyTestString()
     {
-        winrt::Windows::Foundation::Uri rssFeedUri{ L"https://github.com/microsoft/terminal" };
-        return rssFeedUri.Domain();
+        winrt::Windows::Foundation::Uri myUri{ L"https://github.com/microsoft/terminal" };
+        return myUri.Domain();
     }
 }

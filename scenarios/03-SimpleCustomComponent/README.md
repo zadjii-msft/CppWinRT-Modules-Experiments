@@ -80,3 +80,20 @@ Where do you put the `import winrt;` in a component like this?
 * Changing `take_owner...` to
   `constexpr take_ownership_from_abi_t take_ownership_from_abi{};`
   did not fix it
+
+* Includes need to be before imports.
+* `Class.g.h` includes `SimpleCustomComponent.h` (projection), which includes `base.h`, and both the `g.h` and projection _need_ winrt::impl types in `base.h`.
+* base.h defines a namespace-scoped member `take_ownership_from_abi`. So when you include `base.h`, that gets defined & initialized.
+  - You can't conditionally exclude that from `base.h` when building the module, beacuse it has to exist in the module for literally everything else in cppwinrt -> it has to be in the module.
+  - You can't ifdef it out of `base.h` for the `include` of `base.h`, because base.h will have to preceed the winrt module.
+
+
+## tl;dr
+
+If you're authoring winrt types using cppwinrt, you're going to get a `module.g.cpp`, a `Class.g.h`, and a `MyComponent.h` all auto-generated for you by cppwinrt. These files all require some `winrt::impl` types that are defined in `winrt/base.h`, but are notably _not_ exported by the module. (They're implementation details of winrt, so that makes logical sense). That means these files are going to _need_ to `#include <winrt/base.h>`, to have access to those internal types.
+
+However, `base.h` also defines some things that make using it both as a module `import` and as an `#include` not work. Notably:
+* the `WindowsNumerics.impl.h` header, which results in a bunch of redefinitions of types. This can be ifdef'd out of base.h easily enough, so modifing cppwinrt to fix this shouldn't be too hard.
+* There's also the `winrt::take_ownership_from_abi` member, which is a static(?) global in the `winrt` namespace.
+  - It needs to be exported from the module, because it needs to be usable when the module is imported _without_ including `base.h`
+  - but for components that _need_ to include `base.h`, they need to include that header before the module, so the definition in the module will _always_ conflict with the one already in the header. It can't be removed from that header either, because that header relies on it heavily.

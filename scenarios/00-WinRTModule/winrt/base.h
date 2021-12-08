@@ -528,8 +528,8 @@ WINRT_EXPORT namespace winrt
     {
     };
     // TODO! revert me!
-    // inline constexpr take_ownership_from_abi_t take_ownership_from_abi{};
-    constexpr take_ownership_from_abi_t take_ownership_from_abi{};
+    inline constexpr take_ownership_from_abi_t take_ownership_from_abi{};
+    // constexpr take_ownership_from_abi_t take_ownership_from_abi{};
 
     template<typename T>
     struct com_ptr;
