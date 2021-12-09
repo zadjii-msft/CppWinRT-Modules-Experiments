@@ -207,6 +207,36 @@ Testing the cppwinrt#953 patch with more updated compiler verison. Checked out t
 * copied the output from `cppwinrt\_build\x64\Debug\winrt` to `00-WinRTModule\winrt-with-953-patch\winrt`. Made another winrt module project that uses that instead.
 
 
+###### z 08-Dec-2021
+
+The `winrt::name_of` thing. App crashes if you compile it with a module without first manually accessing the name of `Uri`. Why though?
+* Why not any of the other winrt types?
+* Why not in the non-async project? That one seemingly doesn't need it...
+
+```c++
+WINRT_EXPORT namespace winrt
+{
+    template <typename T>
+    constexpr auto name_of() noexcept
+    {
+        return impl::to_wstring_view(impl::name_v<T>);
+    }
+}
+```
+
+stack is:
+```
+> 02-SimpleAsyncActionMod.exe!std::basic_string_view<wchar_t,std::char_traits<wchar_t>>::basic_string_view<wchar_t,std::char_traits<wchar_t>>(const wchar_t * const _Cts, const unsigned __int64 _Count) Line 1263  C++
+  02-SimpleAsyncActionMod.exe!winrt::impl::to_wstring_view<23>(const wchar_t[23] & value) Line 1553 C++
+  02-SimpleAsyncActionMod.exe!winrtWith953Patch::winrt::name_of<winrt::Windows::Foundation::Uri>() Line 1562  C++
+  02-SimpleAsyncActionMod.exe!winrt::impl::factory_cache_entry<winrt::Windows::Foundation::Uri,winrt::Windows::Foundation::IUriRuntimeClassFactory>::call<`winrt::Windows::Foundation::Uri::Uri'::`1'::<lambda_347_> &>(winrt::Windows::Foundation::Uri::{ctor}::__l1::<lambda_347_> & callback) Line 6509  C++
+  02-SimpleAsyncActionMod.exe!winrt::impl::call_factory<winrt::Windows::Foundation::Uri,winrt::Windows::Foundation::IUriRuntimeClassFactory,`winrt::Windows::Foundation::Uri::Uri'::`1'::<lambda_347_>>(winrt::Windows::Foundation::Uri::{ctor}::__l1::<lambda_347_> && callback) Line 6553 C++
+  02-SimpleAsyncActionMod.exe!winrtWith953Patch::winrt::Windows::Foundation::Uri::Uri(const winrt::param::hstring & uri) Line 2302  C++
+  02-SimpleAsyncActionMod.exe!ProcessFeedAsync() Line 66  C++
+```
+
+`Windows.Foundation.Uri` with a trailing NUL _is_ 23 characters, so it might actually know that correctly...
+
 <hr>
 
 ### References
