@@ -133,7 +133,7 @@ End of original notes.
   1>LINK : warning LNK4217: symbol '__stdio_common_vfprintf' defined in 'libucrt.lib(output.obj)' is imported by 'BasicConsoleApplication.obj' in function '_vfprintf_l'
   1>BasicConsoleApplication.obj : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in winrt.obj
   1>BasicConsoleApplication.obj : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MT_StaticRelease' in winrt.obj
-  1>D:\dev\scratch\ModulesExperiments\ModulesExperiments\x64\Debug\BasicConsoleApplication.exe : fatal error LNK1319: 2 mismatches detected
+  1>...\ModulesExperiments\x64\Debug\BasicConsoleApplication.exe : fatal error LNK1319: 2 mismatches detected
   1>    3 Warning(s)
   1>    3 Error(s)
   ```
@@ -156,7 +156,7 @@ End of original notes.
 * Struggle with mismatched winrt headers.
 * IN `ModulesExperiments\ModulesExperiments\CppWinRTModule`, ~`"C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\cppwinrt.exe" -verbose -ref local -prefix -opt -out .` was the command that actually ended up generating the projection!~
   - That of course uses `2.0.201201.7`, which is not the most up to date cppwinrt version. That's probably jsut the one that ships with VS
-  - `"D:\dev\scratch\ModulesExperiments\ModulesExperiments\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\bin\cppwinrt.exe" -verbose -overwrite -ref local -prefix -opt -out D:\dev\scratch\ModulesExperiments\ModulesExperiments\CppWinRTModule` works better
+  - `"...\ModulesExperiments\packages\Microsoft.Windows.CppWinRT.2.0.210806.1\bin\cppwinrt.exe" -verbose -overwrite -ref local -prefix -opt -out ...\ModulesExperiments\CppWinRTModule` works better
   - GAH that didn't generate the ixx...? Wait no that's in the `winrt/` subdir
   - DON'T just `-overwrite` if you do the `cppwinrt.exe` command wrong. May leave behind headers with the wrong version, and the compiler i guess just powers through. Clean everything up, then do the right thing.
   - Actually no, that wasn't the issue. We're still including the `base.h` from the SDK, which has a different cppwinrt version. So manually defining `#define CPPWINRT_VERSION "2.0.210806.1"` will make it obvious that we're including the wrong one.
@@ -236,6 +236,40 @@ stack is:
 ```
 
 `Windows.Foundation.Uri` with a trailing NUL _is_ 23 characters, so it might actually know that correctly...
+
+###### z 09-Dec-2021
+
+Trying to add a simple WUX application. Not even doing WinUI yet, just SDK XAML. Build errors are:
+
+```
+2>...\ModulesExperiments\WuxApplication\Generated Files\winrt\base.h(6911,23): error C2079: 'winrt::impl::producer<D,winrt::Windows::UI::Xaml::Markup::IComponentConnector,void>::vtable' uses undefined struct 'winrt::impl::produce<D,I>'
+2>...\ModulesExperiments\WuxApplication\Generated Files\winrt\base.h(6911,23): error C2079: 'winrt::impl::producer<D,winrt::Windows::UI::Xaml::Markup::IComponentConnector2,void>::vtable' uses undefined struct 'winrt::impl::produce<D,I>'
+2>...\ModulesExperiments\WuxApplication\App.cpp(43,1): fatal error C1117: unrecoverable error importing module 'winrt': symbol 'LaunchActivatedEventArgs' has already been defined
+2>    0 Warning(s)
+2>    3 Error(s)
+```
+
+Two main problems here:
+* the code that xaml generates uses `#include`s for all the WUX things it needs. For example, at the top of `MainPage.g.h`:
+
+```c++
+#pragma once
+#include "winrt/Windows.UI.Composition.h"
+#include "winrt/Windows.UI.Xaml.h"
+#include "winrt/Windows.UI.Xaml.Controls.h"
+#include "winrt/WuxApplication.h"
+```
+  Which of course, is problematic. Presumably, the codegen could be enlightened to know it's using a module?
+
+* `base.h(6911,23): error C2079: 'winrt::impl::producer<D,winrt::Windows::UI::Xaml::Markup::IComponentConnector,void>::vtable' uses undefined struct 'winrt::impl::produce<D,I>'` - ~This is going to be a lot like many of the other `base.h` issues we've seen before. Kinda like the "`category`, `name_v`, `guid_v` and `default_interface`" thing we saw in `base.h` in [`03-SimpleCustomComponent`](./scenarios/03-SimpleCustomComponent/README.md)~.
+  - Er, that's not right. I thought it `producer` was in `winrt::`, but it too is in `winrt::impl::`.
+  - I think `winrt::implements` extends `winrt::impl::producers` which is were the problem comes from, but I'm not _totally_ sure about that.
+
+So, this might be fixable by
+- [ ] Fix the XAML codegen to not include those headers. Maybe just `import winrt`.
+  - Might be able to test that manually? Not sure how agressive the codegen is about running
+    - It's VERY agressive. I tried changing the wux includes by hand to `import winrt;` and `App.xaml.g.h` keeps getting regenerated. `XamlBindingInfo.xaml.g.h`, `XamlTypeInfo.impl.g.cpp`, `XamlTypeInfo.impl.g.h` too. The rest seemingly survive.
+- [ ] Maybe do that thing where we just export a ton more out of `base.h`, like possibly the whole `winrt::impl` namespace.
 
 <hr>
 
