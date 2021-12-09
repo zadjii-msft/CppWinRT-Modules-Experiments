@@ -1,32 +1,41 @@
 // BasicConsoleApplication.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-import winrt;
-#pragma comment(lib, "oleaut32")
-
-// Note: these two are only needed when compiling with modules.
-// Especially to fix the "unresolved external symbol WINRT_IMPL_CoGetCallContext"
-#pragma comment(lib, "ole32")
-#pragma comment(lib, "advapi32")
-
+#include <coroutine>
 #include <iostream>
+
+import winrt;
 
 using namespace winrt;
 using namespace Windows::Foundation;
+using namespace Windows::Web::Syndication;
+
+void PrintFeed(SyndicationFeed const& syndicationFeed)
+{
+    for (SyndicationItem const& syndicationItem : syndicationFeed.Items())
+    {
+        std::wcout << syndicationItem.Title().Text().c_str() << std::endl;
+    }
+}
+
+IAsyncAction ProcessFeedAsync()
+{
+    Uri rssFeedUri{ L"https://blogs.windows.com/feed" };
+    SyndicationClient syndicationClient;
+    SyndicationFeed syndicationFeed{ co_await syndicationClient.RetrieveFeedAsync(rssFeedUri) };
+    PrintFeed(syndicationFeed);
+}
 
 int main()
 {
-    Uri uri(L"http://kennykerr.ca");
-    printf("%ls\n", uri.Domain().c_str());
+    init_apartment();
+    auto processOp{ ProcessFeedAsync() };
+    processOp.get(); 
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started:
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+//int main()
+//{
+//    Uri uri(L"http://kennykerr.ca");
+//    printf("%ls\n", uri.Domain().c_str());
+//}
+//
