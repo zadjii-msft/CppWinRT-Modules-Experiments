@@ -1,9 +1,19 @@
 #pragma once
 
-// This is a placeholder file. `main.cpp` needs to have
-//
-//  #include "pch.h"
-//
-// As the first statement in the file, and it can't be in an ifdef. So, to share
-// the _exact_ same source in the two different projects, we're leaving this
-// placeholder here.
+#ifdef COMPILE_WITH_MODULES
+
+#define WINRT_EXPORT
+#ifdef __INTELLISENSE__
+#define WINRT_IMPL_AUTO(...) __VA_ARGS__
+#else
+#define WINRT_IMPL_AUTO(...) auto
+#endif
+#define WINRT_IMPL_SHIM(...) (*(abi_t<__VA_ARGS__>**)&static_cast<__VA_ARGS__ const&>(static_cast<D const&>(*this)))
+
+#else
+
+#include <unknwn.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+
+#endif
