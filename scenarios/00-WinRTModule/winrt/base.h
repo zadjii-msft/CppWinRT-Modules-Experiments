@@ -1461,6 +1461,11 @@ WINRT_EXPORT namespace winrt
     template <typename T>
     constexpr auto name_of() noexcept
     {
+        // In debug builds, the linker is not correctly importing the name_v string literal COMDAT,
+        // causing runtime crashes (see the "Async coroutine causes name_v corruptions" repro)
+        // In release builds, the linker crashes on the name_v invocation below:
+        //  1>...\00-WinRTModule\winrt\base.h(1464): fatal error C1001: Internal compiler error.
+        //  1>(compiler file 'd:\a01\_work\20\s\src\vctools\Compiler\Utc\src\p2\main.c', line 217)
         return impl::to_wstring_view(impl::name_v<T>);
     }
 }
