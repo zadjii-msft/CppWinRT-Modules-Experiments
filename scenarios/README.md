@@ -18,15 +18,15 @@ This is a list of various samples we could create, with both `pch`'s and modules
 This should be comprehensive enough that it would cover all the pure C++/WinRT use cases with modules. I'm sure there's other stranger edge cases, but this should be enoguh to give the 👍
 
 
-#### Current progress [██████▒▒__________]
+#### Current progress [███████▒▒▒________]
 
 Project                    | `pch.h` state | modules state | notes
 ---------------------------|---------------|---------------|---------------
 `01-SimpleConsoleApp`      | ✔ | ✔ |
 `02-SimpleAsyncAction`     | ✔ | ⚠️ | [microsoft/cppwinrt/953] nearly fixed this. Needs another patch to work around a compiler issue. See also [02-SimpleAsyncAction/notes.md](./02-SimpleAsyncAction/notes.md), especially the tl;dr.
-`03-SimpleCustomComponent` | ✔ | ❌ | See [03-SimpleCustomComponent/README.md](./03-SimpleCustomComponent/README.md), especially the tl;dr. Issue with `take_ownership_from_abi`
+`03-SimpleCustomComponent` | ✔ | ⚠️ | See [03-SimpleCustomComponent/README.md](./03-SimpleCustomComponent/README.md), especially the tl;dr. Issue with `take_ownership_from_abi`
 `04-CustomConsoleApp`      | ✔ | 📝 | Module version of exe blocked on module version of _component_ (03) building successfully.
-`05-SimpleXamlApp`         | todo | todo |
+`05-SimpleXamlApp`         | 📝 | 📝 |
 `06-CustomXamlApp`         | todo | todo |
 `07-SimpleWinUiApp`        | todo | todo |
 `08-CustomWinUiApp`        | todo | todo |
@@ -38,6 +38,19 @@ Project                    | `pch.h` state | modules state | notes
 * ⚠️: Complete, works, but with a cppwinrt patch.
 * 🛑: blocked on finishing for some reason
 
+### Current status
+
+_12/14/2021_: Scenarios 01-04 seem to work as modules, using a custom built `cppwinrt.exe`. To build the solution:
+* Clone the cppwinrt repro.
+* Checkout `origin/user/sjones/modules` in the cppwinrt repo
+* run `build_nuget.cmd 2.3.4.5`. If this generates a package with version 1.0.0, then you'll need to re-run the last command (`nuget pack ...`) with the additional `-Version 2.3.4.5` flag.
+* copy `cppwinrt\Microsoft.Windows.CppWinRT.2.3.4.5.nupkg` to a `scenarios/PackageStore/Microsoft.Windows.CppWinRT.2.3.4.5.nupkg`.
+* run a `nuget restore` in the `scenarios/` directory
+
+Hopefully this shouldn't be _necessary_ - the updated versions of the headers should already be checked-in to the repo. In the future, we'll be using this as the workflow so we can ingest official updated cppwinrt builds.
+
+The `{Debug|Release}{Mod|Pch}` Configurations allow for you to quickly build either all the Module projects or the pch projects. The plain old `{Debug|Release}` configurations will still just build them all.
+
 ### todos:
 
 * [x] I made an absolutely stupid choice with the naming here.
@@ -47,6 +60,33 @@ Project                    | `pch.h` state | modules state | notes
   - put the output in `{mod or pch}\$(RootNamespace).dll`, so we can do the SxS thing correctly.
 * [x] I should check if the cppwinrt compiler from [microsoft/cppwinrt/953] fixes the module version of `02-SimpleAsyncAction`.
   - It does, with minor other alterations.
-* [ ] investigate the `name_of` thing mentioned in [microsoft/cppwinrt/953]. Perhaps we can figure that one out?
+* [x] The `name_of` thing mentioned in [microsoft/cppwinrt/953]. Perhaps we can figure that one out?
+  - This one seems to be a compiler/linker bug. There's a minimal repro in `02-SimpleAsyncAction/main.cpp`.
+* [ ] Mike was able to work with just a ProjectReference to the Module project, but Scott needed to manually reference the `.ifc` (etc). There's some tooling gap here?
+* [ ] Collect performance numbers for pch usage vs module usage
+  - disk space for a complete `#include <Windows.*>` pch vs the winrt module
+    - Including the entirety of Windows.UI.XAML is important
+  - Compile time for an exe consuming the module vs one consuming a pch
+  - How many projects in a solution does it take for the module to be faster than the pch?
+    - how long does a single component take for module vs pch
+  - exe & dll sizes for module vs pch
+* [ ] Edit `04-CustomConsoleApp/mod` to consume the _module_ created by `03-SimpleCustomComponent`.
+* [ ] Import the WUX app from the `sample-wux-app` branch
+* [ ] Do we need a sample for a exe that consumes `Foo` which also consumes `Bar` which consumes `winrt`, so there's stacked dependencies here? Or is `04` a good enough example for this?
+
+### Work for 2022:
+
+* [ ] Compiler fix for async/`name_of` bug?
+* [ ] VS Tooling fix for needing to manually reference the module outputs?
+* [ ] Change to cppwinrt to ingest [microsoft/cppwinrt/953].
+* [ ] Change to cppwinrt to export additional `winrt::impl` templates in `base.h`, for component authoring
+* [ ] Change to cppwinrt tooling to accomodate consuming the module when authoring components
+* [ ] Change to XAML codegen to accomodate consuming a module when authoring types
+
+
+
+
+
+
 
 [microsoft/cppwinrt/953]: https://github.com/microsoft/cppwinrt/pull/953

@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <new>
 
 // HEY YOU: imports should always come after #includes. Class.h includes
 // Class.g.h which includes SimpleCustomComponent.h which includes
@@ -8,11 +9,7 @@
 #include "Class.g.cpp"
 
 #ifdef COMPILE_WITH_MODULES
-
-// #define CPPWINRT_VERSION "2.0.210806.1"
-// import winrt;
-// #define WINRT_EXPORT ;
-
+import winrt;
 #endif
 
 namespace winrt::SimpleCustomComponent::implementation
