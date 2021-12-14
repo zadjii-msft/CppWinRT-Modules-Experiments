@@ -1,46 +1,41 @@
 #include "pch.h"
 
-#ifdef COMPILE_WITH_MODULES
-
-#include <unknwn.h>
-
-#include <algorithm>
-#include <array>
-#include <atomic>
-#include <charconv>
-#include <chrono>
-#include <cstddef>
-#include <iterator>
-#include <map>
-#include <memory>
-#include <optional>
-#include <stdexcept>
-#include <string_view>
-#include <string>
-#include <thread>
-#include <tuple>
-#include <type_traits>
-#include <unordered_map>
-#include <utility>
-#include <vector>
-#include <coroutine>
-
-import winrtWith953Patch;
-#pragma comment(lib, "oleaut32")
-#pragma comment(lib, "ole32")
-#pragma comment(lib, "advapi32")
-
-
-#endif
-
-#ifndef COMPILE_WITH_MODULES
-#endif
-
 #include <iostream>
+
+#ifdef COMPILE_WITH_MODULES
+import winrt;
+#endif
 
 using namespace winrt;
 using namespace Windows::Foundation;
 using namespace Windows::Web::Syndication;
+
+
+#if 0   // Async coroutine causes name_v corruptions
+
+// TODO: open DevDiv issue 
+// simply defining any winrt async coroutine causes this string_view assert and subsequent crash:
+//  _STL_VERIFY(_Count == 0 || _Cts, "non-zero size null string_view");
+// _Count is correctly passed (e.g., 22 for "Windows.Foundation.Uri") but _Cts (data) is nullptr
+// problem can be worked around via explicit winrt::name_of<Class>() calls
+
+//winrt::Windows::Foundation::IAsyncOperation<bool> - also fails
+//winrt::fire_and_forget - succeeds - failure limited to Windows.Foundation.* coroutine types
+winrt::Windows::Foundation::IAsyncAction
+AsyncFoo()
+{
+    co_return;
+}
+
+int main()
+{
+    winrt::init_apartment();
+    WwwFormUrlDecoder decoder(L"foo=bar"); // also crashes - not just Uri
+    Uri uri(L"http://aka.ms/cppwinrt");
+    printf("Hello, %ls!\n", uri.AbsoluteUri().c_str());
+}
+
+#else
 
 void PrintFeed(SyndicationFeed const& syndicationFeed)
 {
@@ -74,6 +69,7 @@ int main()
     winrt::init_apartment();
 
     // As mentioned in microsoft/cppwinrt#935. Root cause is yet unknown.
+    // See above for simplified repro - async coroutine causes name_v corruptions
     auto name{ winrt::name_of<Uri>() };
     name;
 
@@ -83,3 +79,5 @@ int main()
     // do other work while the feed is being printed.
     processOp.get(); // no more work to do; call get() so that we see the printout before the application exits.
 }
+
+#endif
