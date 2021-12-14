@@ -134,6 +134,23 @@
       <Project>{22217ee0-573f-4cd2-a1ac-b8f5f3299333}</Project>
     </ProjectReference>
   </ItemGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalModuleDependencies Condition="'$(Platform)'=='Win32'">$(SolutionDir)03-SimpleCustomComponent\mod\$(Configuration)\SimpleCustomComponent.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+
+      <AdditionalModuleDependencies Condition="'$(Platform)'!='Win32'">$(SolutionDir)03-SimpleCustomComponent\mod\$(Platform)\$(Configuration)\SimpleCustomComponent.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+    </ClCompile>
+    <Link>
+
+      <AdditionalDependencies Condition="'$(Platform)'=='Win32'">$(solutiondir)03-SimpleCustomComponent\mod\$(Configuration)\SimpleCustomComponent.ixx.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Platform)'!='Win32'">$(solutiondir)03-SimpleCustomComponent\mod\$(Platform)\$(Configuration)\SimpleCustomComponent.ixx.obj;%(AdditionalDependencies)</AdditionalDependencies>
+
+    </Link>
+
+  </ItemDefinitionGroup>
+
+
   <ItemGroup>
     <ClInclude Include="..\pch.h" />
   </ItemGroup>

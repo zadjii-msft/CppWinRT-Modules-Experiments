@@ -150,6 +150,7 @@
     <ClCompile Include="../Class.cpp">
       <DependentUpon>../Class.idl</DependentUpon>
     </ClCompile>
+    <ClCompile Include="SimpleCustomComponent.ixx" />
     <ClCompile Include="x64\Debug\Generated Files\module.g.cpp" />
   </ItemGroup>
   <ItemGroup>
