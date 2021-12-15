@@ -48,6 +48,15 @@ export module winrt;
 #define WINRT_EXPORT export
 #include <unknwn.h>
 
+#define FULL_PROJECTION 1
+#ifndef FULL_PROJECTION
+// Minimal
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Web.h>
+#include <winrt/Windows.Web.Syndication.h>
+#else
+// full
 #include "winrt/Windows.AI.MachineLearning.h"
 #include "winrt/Windows.AI.MachineLearning.Preview.h"
 #include "winrt/Windows.ApplicationModel.h"
@@ -314,7 +323,7 @@ export module winrt;
 #include "winrt/Windows.UI.Composition.Diagnostics.h"
 #include "winrt/Windows.UI.Composition.Effects.h"
 #include "winrt/Windows.UI.Composition.Interactions.h"
-#include "winrt/Windows.UI.Composition.Particles.h"
+// #include "winrt/Windows.UI.Composition.Particles.h"
 #include "winrt/Windows.UI.Composition.Scenes.h"
 #include "winrt/Windows.UI.Core.h"
 #include "winrt/Windows.UI.Core.AnimationMetrics.h"
@@ -374,3 +383,4 @@ export module winrt;
 #include "winrt/Windows.Web.Syndication.h"
 #include "winrt/Windows.Web.UI.h"
 #include "winrt/Windows.Web.UI.Interop.h"
+#endif
