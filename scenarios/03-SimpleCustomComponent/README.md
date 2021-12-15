@@ -87,8 +87,59 @@ Where do you put the `import winrt;` in a component like this?
   - You can't conditionally exclude that from `base.h` when building the module, beacuse it has to exist in the module for literally everything else in cppwinrt -> it has to be in the module.
   - You can't ifdef it out of `base.h` for the `include` of `base.h`, because base.h will have to preceed the winrt module.
 
+<hr>
 
-## tl;dr
+### Notes, 15-Dec-2021
+
+So Scott's managed to change the WinRT projection a decent amount to be able to get the base.h including sorted out.
+
+But now I'm trying to export my `SimpleCustomComponent::Class` in the `SimpleCustomComponent` module. I've done:
+
+```c++
+export module SimpleCustomComponent;
+
+import winrt;
+
+#define WINRT_EXPORT export
+
+#include "winrt/SimpleCustomComponent.h"
+```
+
+But now I'm getting the compiler error:
+```
+3>main.obj : error LNK2019: unresolved external symbol "public: __cdecl winrt::SimpleCustomComponent::Class::Class(void)" (??0Class@SimpleCustomComponent@winrt@@QEAA@XZ) referenced in function main
+```
+when trying to compile the exe that references that component. I've added a reference to the module like so:
+
+```xml
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalModuleDependencies Condition="'$(Platform)'=='Win32'">$(SolutionDir)03-SimpleCustomComponent\mod\$(Configuration)\SimpleCustomComponent.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+
+      <AdditionalModuleDependencies Condition="'$(Platform)'!='Win32'">$(SolutionDir)03-SimpleCustomComponent\mod\$(Platform)\$(Configuration)\SimpleCustomComponent.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+    </ClCompile>
+```
+
+and `Class::Class` is defined in the module in `SimpleCustomComponent.2.h`:
+
+```c++
+WINRT_EXPORT namespace winrt::SimpleCustomComponent
+{
+    struct __declspec(empty_bases) Class : winrt::SimpleCustomComponent::IClass
+    {
+        Class(std::nullptr_t) noexcept {}
+        Class(void* ptr, take_ownership_from_abi_t) noexcept : winrt::SimpleCustomComponent::IClass(ptr, take_ownership_from_abi) {}
+        Class();
+    };
+}
+```
+
+I tried moving the module out of the dll project into it's own project, but that seems to not work either.
+
+I'm not going to be able to resolve this before the break, so I'm going to revert most of this work.
+
+
+## tl;dr, 10-Dec-2021
 
 If you're authoring winrt types using cppwinrt, you're going to get a `module.g.cpp`, a `Class.g.h`, and a `MyComponent.h` all auto-generated for you by cppwinrt. These files all require some `winrt::impl` types that are defined in `winrt/base.h`, but are notably _not_ exported by the module. (They're implementation details of winrt, so that makes logical sense). That means these files are going to _need_ to `#include <winrt/base.h>`, to have access to those internal types.
 

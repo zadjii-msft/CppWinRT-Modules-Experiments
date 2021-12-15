@@ -1,10 +1,17 @@
 #include "pch.h"
 #include <iostream>
-#include <winrt/SimpleCustomComponent.h>
 
 #ifdef COMPILE_WITH_MODULES
 import winrt;
+
+import SimpleCustomComponent;
+
+#else
+
+#include <winrt/SimpleCustomComponent.h>
+
 #endif
+
 
 using namespace winrt;
 using namespace Windows::Foundation;
