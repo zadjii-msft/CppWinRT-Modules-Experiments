@@ -8,7 +8,7 @@ import SimpleCustomComponent;
 
 #else
 
-// #include <winrt/SimpleCustomComponent.h>
+#include <winrt/SimpleCustomComponent.h>
 
 #endif
 

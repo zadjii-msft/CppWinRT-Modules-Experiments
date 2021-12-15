@@ -130,19 +130,16 @@
     <ProjectReference Include="..\..\00-WinRTModule\WinRTModule.vcxproj">
       <Project>{00008f98-a466-4690-b2c0-239486abe994}</Project>
     </ProjectReference>
-<!--     <ProjectReference Include="..\..\03-SimpleCustomComponent\mod\03-SimpleCustomComponentMod.vcxproj">
+    <ProjectReference Include="..\..\03-SimpleCustomComponent\mod\03-SimpleCustomComponentMod.vcxproj">
       <Project>{22217ee0-573f-4cd2-a1ac-b8f5f3299333}</Project>
-    </ProjectReference> -->
-    <ProjectReference Include="..\..\03-SimpleCustomComponent\export\03-SimpleCustomComponentExportModule.vcxproj">
-      <Project>{33317ee0-573f-4cd2-a1ac-b8f5f3299333}</Project>
     </ProjectReference>
   </ItemGroup>
 
   <ItemDefinitionGroup>
     <ClCompile>
-      <!-- <AdditionalModuleDependencies Condition="'$(Platform)'=='Win32'">$(SolutionDir)03-SimpleCustomComponent\export\$(Configuration)\SimpleCustomComponent.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies> -->
+      <AdditionalModuleDependencies Condition="'$(Platform)'=='Win32'">$(SolutionDir)03-SimpleCustomComponent\mod\$(Configuration)\SimpleCustomComponent.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
 
-      <!-- <AdditionalModuleDependencies Condition="'$(Platform)'!='Win32'">$(SolutionDir)03-SimpleCustomComponent\export\$(Platform)\$(Configuration)\SimpleCustomComponent.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies> -->
+      <AdditionalModuleDependencies Condition="'$(Platform)'!='Win32'">$(SolutionDir)03-SimpleCustomComponent\mod\$(Platform)\$(Configuration)\SimpleCustomComponent.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
     </ClCompile>
     <!-- This feels wrong:
     <Link>
