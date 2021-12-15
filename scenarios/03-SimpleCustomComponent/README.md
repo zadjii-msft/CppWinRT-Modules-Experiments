@@ -134,7 +134,9 @@ WINRT_EXPORT namespace winrt::SimpleCustomComponent
 }
 ```
 
+I tried moving the module out of the dll project into it's own project, but that seems to not work either.
 
+I'm not going to be able to resolve this before the break, so I'm going to revert most of this work.
 
 
 ## tl;dr, 10-Dec-2021
