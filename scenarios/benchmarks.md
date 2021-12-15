@@ -33,7 +33,7 @@ The "Full" projection is one that includes all of the cppwinrt headers that ship
 
 The "minimal" projection is just `Windows.Foundation.h`, `Windows.Foundation.Collections.h`, `Windows.Web.h`, and `Windows.Web.Syndication.h`, which were all that's actually needed for these simple test projects.
 
-### 4 projects, full winrt projection in both PCH and module
+![build timing vs number of projects](./benchmark-data-2021-12-15.png)
 
 Build  | Projects | Projection | time    | average
 -------|----------|------------|---------|--------
@@ -88,9 +88,8 @@ Module | 4        | Minimal    |         |
 
 Three projects that use the entirety of the Windows namespace is the breakeven point for the module being more overall performant. Optimizations could be made to trim the winrt module, if not everything is needed in a particular solution.
 
-### Single project, full projections
-
-### Single project, minimal projections
+* [ ] TODO: Single project, full projections
+* [ ] TODO: Single project, minimal projections
 
 
 [microsoft/cppwinrt/953]: https://github.com/microsoft/cppwinrt/pull/953
