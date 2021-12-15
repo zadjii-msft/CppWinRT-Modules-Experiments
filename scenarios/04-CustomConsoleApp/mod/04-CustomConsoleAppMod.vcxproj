@@ -141,13 +141,11 @@
 
       <AdditionalModuleDependencies Condition="'$(Platform)'!='Win32'">$(SolutionDir)03-SimpleCustomComponent\mod\$(Platform)\$(Configuration)\SimpleCustomComponent.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
     </ClCompile>
+    <!-- This feels wrong:
     <Link>
-
       <AdditionalDependencies Condition="'$(Platform)'=='Win32'">$(solutiondir)03-SimpleCustomComponent\mod\$(Configuration)\SimpleCustomComponent.ixx.obj;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Platform)'!='Win32'">$(solutiondir)03-SimpleCustomComponent\mod\$(Platform)\$(Configuration)\SimpleCustomComponent.ixx.obj;%(AdditionalDependencies)</AdditionalDependencies>
-
-    </Link>
-
+    </Link> -->
   </ItemDefinitionGroup>
 
 
