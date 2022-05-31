@@ -11,9 +11,10 @@ using namespace Windows::Foundation;
 using namespace Windows::Web::Syndication;
 
 
+// https://devdiv.visualstudio.com/DevDiv/_workitems/edit/1458232 fixed with
+// Version 17.3.0 Preview 2.0 [32530.156.main]
 #if 0   // Async coroutine causes name_v corruptions
 
-// TODO: open DevDiv issue 
 // simply defining any winrt async coroutine causes this string_view assert and subsequent crash:
 //  _STL_VERIFY(_Count == 0 || _Cts, "non-zero size null string_view");
 // _Count is correctly passed (e.g., 22 for "Windows.Foundation.Uri") but _Cts (data) is nullptr
@@ -67,11 +68,6 @@ winrt::Windows::Foundation::IAsyncAction ProcessFeedAsync()
 int main()
 {
     winrt::init_apartment();
-
-    // As mentioned in microsoft/cppwinrt#935. Root cause is yet unknown.
-    // See above for simplified repro - async coroutine causes name_v corruptions
-    auto name{ winrt::name_of<Uri>() };
-    name;
 
     DoAnotherThing();
 
