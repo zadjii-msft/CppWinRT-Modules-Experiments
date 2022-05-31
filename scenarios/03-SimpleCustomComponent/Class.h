@@ -17,7 +17,7 @@
 
 #ifdef COMPILE_WITH_MODULES
 
-#define CPPWINRT_VERSION "2.0.210806.1"
+//#define CPPWINRT_VERSION "2.3.4.5"
 // #define _WINRT_SUPPRESS_NUMERICS
 import winrt;
 

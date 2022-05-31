@@ -26,6 +26,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>kernel32.lib;user32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);WindowsApp.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 

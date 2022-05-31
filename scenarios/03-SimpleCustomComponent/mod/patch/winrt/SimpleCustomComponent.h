@@ -7,10 +7,11 @@
 #pragma region module_tweaks
 
 //#include "winrt/base.h"
-//static_assert(winrt::check_version(CPPWINRT_VERSION, "2.3.4.5"), "Mismatched C++/WinRT headers.");
-//#define CPPWINRT_VERSION "2.3.4.5"
 #include <cstdint>
 import winrt;
+static_assert(winrt::check_version(WINRT_version_number, "2.3.4.5"), "Mismatched C++/WinRT headers.");
+// TODO: preserve detection of reassignment, since modules cannot export macros
+#define CPPWINRT_VERSION "2.3.4.5"
 
 #pragma endregion module_tweaks
 

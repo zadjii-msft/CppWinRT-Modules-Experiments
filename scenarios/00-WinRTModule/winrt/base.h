@@ -521,9 +521,7 @@ WINRT_EXPORT namespace winrt
     template <typename D, typename I>
     D* get_self(I const& from) noexcept;
 
-    WINRT_EXPORT
     struct take_ownership_from_abi_t {};
-    WINRT_EXPORT
     inline constexpr take_ownership_from_abi_t take_ownership_from_abi{};
 
     template <typename T>
@@ -9498,9 +9496,11 @@ decltype(winrt::impl::natvis::get_val) & WINRT_get_val = winrt::impl::natvis::ge
 #endif
 
 // WINRT_version is used by Microsoft to analyze C++/WinRT library adoption and inform future product decisions.
-extern "C"
-__declspec(selectany)
+extern "C" __declspec(selectany)
 char const * const WINRT_version = "C++/WinRT version:" CPPWINRT_VERSION;
+
+WINRT_EXPORT
+constexpr char const WINRT_version_number[] = CPPWINRT_VERSION;
 
 #ifdef _M_IX86
 #pragma comment(linker, "/include:_WINRT_version")

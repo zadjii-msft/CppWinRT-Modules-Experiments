@@ -263,6 +263,8 @@ These are mostly for my own use.
 * [Mega query](https://developercommunity.visualstudio.com/search?space=62&q=modules)
 * [identifier not found, with default member initializer and global module fragment](https://developercommunity.visualstudio.com/t/identifier-not-found-with-default-membe/1376824)
   - linked to by microsoft/cppwinrt#953
+* [Use of modules with C++/WinRT winrt::impl::name_v causes ICEs and/or runtime errors](https://developercommunity.visualstudio.com/t/Use-of-modules-with-CWinRT-winrt::imp/1613181#T-ND1629089)
+  - All fixex are now available in Version 17.3.0 Preview 2.0 [32530.156.main]
 
 #### C++WinRT PRs, issues
 
